@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindNumbers — Try It Interactive Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ============ DESIGN TOKENS ============ */
+    :root {
+      --navy: #1B2A4A;
+      --purple: #7C5CFC;
+      --purple-light: #EDE9FE;
+      --blue: #4A90D9;
+      --green: #34A853;
+      --yellow: #F5A623;
+      --red: #E74C3C;
+      --bg: #F8F9FC;
+      --white: #FFFFFF;
+      --gray-50: #F9FAFB;
+      --gray-100: #F3F4F6;
+      --gray-200: #E5E7EB;
+      --gray-300: #D1D5DB;
+      --gray-400: #9CA3AF;
+      --gray-500: #6B7280;
+      --gray-600: #4B5563;
+      --gray-700: #374151;
+      --gray-800: #1F2937;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow-lg: 0 8px 40px rgba(27, 42, 74, 0.12);
+    }
+
+    /* ============ BASE ============ */
+    .mn-demo-section {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--gray-800);
+      line-height: 1.6;
+      padding: 60px 24px;
+      background: var(--bg);
+    }
+    .mn-demo-section * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ============ SECTION HEADER ============ */
+    .mn-demo-section .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 48px;
+    }
+    .mn-demo-section .section-label {
+      display: inline-block;
+      background: var(--purple-light);
+      color: var(--purple);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 100px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .mn-demo-section .section-header h2 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .mn-demo-section .section-header p {
+      font-size: 16px;
+      color: var(--gray-500);
+    }
+
+    /* ============ DEMO LAYOUT ============ */
+    .mn-demo-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .mn-demo-left {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    .mn-demo-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    /* ============ HINT CARDS ============ */
+    .mn-hint-card {
+      background: var(--bg);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      width: 200px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .mn-hint-card:hover { border-color: var(--purple); transform: translateY(-2px); }
+    .mn-hint-card.active-hint {
+      border-color: var(--purple);
+      background: var(--purple-light);
+    }
+    .mn-hint-card h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mn-hint-card p {
+      font-size: 13px;
+      color: var(--gray-500);
+      line-height: 1.4;
+    }
+    .mn-hint-icon { font-size: 20px; }
+    .mn-tap-instruction {
+      text-align: center;
+      font-size: 14px;
+      color: var(--gray-400);
+      margin-top: 12px;
+    }
+    .mn-tap-instruction strong { color: var(--purple); }
+
+    /* ============ PHONE MOCKUP ============ */
+    .mn-phone {
+      width: 310px;
+      height: 660px;
+      background: #000;
+      border-radius: 52px;
+      border: 3px solid #2a2a2a;
+      overflow: visible;
+      box-shadow:
+        0 0 0 1px #1a1a1a,
+        0 0 0 3px #3a3a3a,
+        0 0 0 4px #1a1a1a,
+        0 20px 60px rgba(0,0,0,0.25),
+        0 8px 20px rgba(0,0,0,0.15);
+      position: relative;
+      flex-shrink: 0;
+    }
+    /* Side buttons — left: silent switch + 2 volume buttons */
+    .mn-phone::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 115px;
+      width: 4px;
+      height: 24px;
+      background: linear-gradient(to right, #4a4a4a, #3a3a3a);
+      border-radius: 3px 0 0 3px;
+      box-shadow:
+        0 42px 0 0 #3a3a3a,
+        0 42px 0 0 #3a3a3a,
+        0 80px 0 0 #3a3a3a;
+      z-index: 0;
+    }
+    /* Right: power/side button */
+    .mn-phone::after {
+      content: '';
+      position: absolute;
+      right: -5px;
+      top: 155px;
+      width: 4px;
+      height: 64px;
+      background: linear-gradient(to left, #4a4a4a, #3a3a3a);
+      border-radius: 0 3px 3px 0;
+      z-index: 0;
+    }
+    /* Dynamic Island */
+    .mn-phone .phone-notch {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95px;
+      height: 26px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 10;
+    }
+    /* Front camera dot inside Dynamic Island */
+    .mn-phone .phone-notch::after {
+      content: '';
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, #1a2744, #0a0a1a);
+      box-shadow: inset 0 0 2px rgba(255,255,255,0.1);
+    }
+    .mn-screen {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      border-radius: 49px;
+      background: var(--bg);
+      z-index: 1;
+    }
+
+    /* ============ SCREENSHOT SCREENS ============ */
+    .mn-s-img {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.35s, transform 0.35s;
+      pointer-events: none;
+      background: var(--bg);
+    }
+    /* Forward: new screen slides in from right */
+    .mn-s-img.mn-active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+    .mn-s-img.mn-exit { transform: translateX(-30px); opacity: 0; }
+    /* Back: new screen slides in from left, old exits to right */
+    .mn-s-img.mn-enter-back { transform: translateX(-30px); }
+    .mn-s-img.mn-enter-back.mn-active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+    .mn-s-img.mn-exit-back { transform: translateX(30px); opacity: 0; }
+
+    /* Scrollable image wrapper — lets tall screenshots scroll */
+    .mn-img-scroll {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+    /* Hide scrollbar but keep scrollable */
+    .mn-img-scroll::-webkit-scrollbar { display: none; }
+    .mn-img-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Content wrapper — sizes to image, positions hotspots relative to image */
+    .mn-img-content {
+      position: relative;
+      width: 100%;
+    }
+    .mn-img-content img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ============ INVISIBLE HOTSPOTS ============ */
+    /* Content hotspots — inside mn-img-content, scroll with image */
+    .mn-hotspot {
+      position: absolute;
+      cursor: pointer;
+      z-index: 5;
+    }
+    /* Fixed hotspots — on mn-s-img directly, stay on top during scroll */
+    .mn-hotspot-fixed {
+      position: absolute;
+      cursor: pointer;
+      z-index: 15;
+    }
+
+    /* ============ BOTTOM NAV ============ */
+    .mn-nav-global {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: white;
+      border-top: 1px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      z-index: 20;
+      padding: 0 4px;
+    }
+    .mn-nav-item {
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 4px 0;
+      min-width: 44px;
+      transition: opacity 0.2s;
+    }
+    .mn-nav-item.mn-nav-on { opacity: 1; }
+    .mn-nav-item img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+    .mn-nav-item .mn-nav-active { display: none; }
+    .mn-nav-item .mn-nav-inactive { display: block; }
+    .mn-nav-item.mn-nav-on .mn-nav-active { display: block; }
+    .mn-nav-item.mn-nav-on .mn-nav-inactive { display: none; }
+
+    /* ============ DASHBOARD BUTTON ============ */
+    .mn-dash-btn {
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      border-radius: 100px;
+      padding: 10px 24px;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: 'Inter', -apple-system, sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 200px;
+      justify-content: center;
+      transition: all 0.3s;
+      box-shadow: 0 4px 16px rgba(124, 92, 252, 0.3);
+    }
+    .mn-dash-btn:hover { background: #6a4ae0; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124, 92, 252, 0.4); }
+    .mn-dash-btn.active-hint { background: #6a4ae0; box-shadow: 0 6px 20px rgba(124, 92, 252, 0.5); }
+    .mn-dash-btn svg { stroke: #fff; }
+
+    /* ============ BACK BUTTON ============ */
+    .mn-back-btn {
+      position: absolute;
+      top: 52px;
+      left: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 25;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .mn-back-btn:hover { background: #fff; transform: scale(1.1); }
+    .mn-back-btn svg { width: 14px; height: 14px; stroke: var(--navy); }
+
+    /* (pulse animation removed) */
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 900px) {
+      .mn-demo-container { grid-template-columns: 1fr; justify-items: center; gap: 24px; }
+      .mn-demo-left, .mn-demo-right { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: stretch; }
+      .mn-hint-card { max-width: 220px; }
+      .mn-demo-left { order: 2; }
+      .mn-demo-right { order: 3; }
+    }
+    @media (max-width: 480px) {
+      .mn-phone { width: 270px; height: 580px; border-radius: 46px; }
+      .mn-screen { border-radius: 43px; }
+      .mn-demo-section .section-header h2 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<section class="mn-demo-section" id="try-it">
+  <div class="section-header">
+    <span class="section-label">Try It</span>
+    <h2>Experience the app right here</h2>
+    <p>Tap the cards inside the phone to explore, just like using the real app.</p>
+  </div>
+  <div class="mn-demo-container">
+
+    <!-- Left side hints (Dashboard detail views) -->
+    <div class="mn-demo-left">
+      <div class="mn-dash-btn active-hint" id="mn-hint-dash" onclick="mnGo('dash')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="mn-hint-card" id="mn-hint-mood" onclick="mnGo('mood')">
+        <h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span> Mood & Speech</h4>
+      </div>
+      <div class="mn-hint-card" id="mn-hint-sleep" onclick="mnGo('sleep')">
+        <h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span> Sleep</h4>
+      </div>
+      <div class="mn-hint-card" id="mn-hint-activity" onclick="mnGo('activity')">
+        <h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span> Activity</h4>
+      </div>
+      <div class="mn-hint-card" id="mn-hint-routine" onclick="mnGo('routine')">
+        <h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> Routine</h4>
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div class="mn-phone">
+        <div class="phone-notch"></div>
+        <div class="mn-screen">
+
+          <!-- Dashboard Data (My Summary) -->
+          <div class="mn-s-img mn-active" id="mn-dash">
+            <div class="mn-img-scroll">
+              <div class="mn-img-content">
+                <img src="../MindNumbers Interactive Phone items/Dashboard Data.png" alt="Dashboard">
+                <!-- Hotspot: My Input tab -->
+                <div class="mn-hotspot" style="top:18.5%;left:48%;width:38%;height:3.5%;" onclick="mnGo('input')"></div>
+                <!-- Hotspot: Mood & Speech card (white box + status label) -->
+                <div class="mn-hotspot" style="top:35%;left:5%;width:43%;height:18%;" onclick="mnGo('mood')"></div>
+                <!-- Hotspot: Sleep card -->
+                <div class="mn-hotspot" style="top:35%;left:52%;width:43%;height:18%;" onclick="mnGo('sleep')"></div>
+                <!-- Hotspot: Activity card -->
+                <div class="mn-hotspot" style="top:53.5%;left:5%;width:43%;height:19%;" onclick="mnGo('activity')"></div>
+                <!-- Hotspot: Routine card -->
+                <div class="mn-hotspot" style="top:53.5%;left:52%;width:43%;height:19%;" onclick="mnGo('routine')"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dashboard - My Input (voice sample) [390x1710 native] -->
+          <div class="mn-s-img" id="mn-input">
+            <div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+            <div class="mn-img-scroll">
+              <div class="mn-img-content">
+                <img src="../MindNumbers Interactive Phone items/Dashboard - with voice sample.png" alt="My Input">
+                <!-- Hotspot: My Summary tab -->
+                <div class="mn-hotspot" style="top:10%;left:5%;width:38%;height:3%;" onclick="mnGo('dash')"></div>
+                <!-- Hotspot: Record a voice sample button -->
+                <div class="mn-hotspot" style="top:20%;left:8%;width:84%;height:4%;" onclick="mnGo('voice-rec')"></div>
+                <!-- Hotspot: See all episodes (near bottom of image) -->
+                <div class="mn-hotspot" style="top:87%;left:15%;width:70%;height:4%;" onclick="mnGo('episodes')"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mood & Speech Details [1560x4872 native, arrow at ~7.2%] -->
+          <div class="mn-s-img" id="mn-mood">
+            <div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+            <div class="mn-img-scroll">
+              <div class="mn-img-content">
+                <img src="../MindNumbers Interactive Phone items/Mood %26 Speech details.png" alt="Mood & Speech Details">
+                <div class="mn-hotspot" style="top:5.5%;left:2%;width:15%;height:4%;" onclick="mnGo('dash')"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sleep Details [1560x6188 native, arrow at ~5.7%] -->
+          <div class="mn-s-img" id="mn-sleep">
+            <div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+            <div class="mn-img-scroll">
+              <div class="mn-img-content">
+                <img src="../MindNumbers Interactive Phone items/Sleep details.png" alt="Sleep Details">
+                <div class="mn-hotspot" style="top:4%;left:2%;width:15%;height:3.5%;" onclick="mnGo('dash')"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity Details [1560x4388 native, arrow at ~8%] -->
+          <div class="mn-s-img" id="mn-activity">
+            <div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+            <div class="mn-img-scroll">
+              <div class="mn-img-content">
+                <img src="../MindNumbers Interactive Phone items/Activity details.png" alt="Activity Details">
+                <div class="mn-hotspot" style="top:6%;left:2%;width:15%;height:5%;" onclick="mnGo('dash')"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Routine Details [1560x8112 native, arrow at ~4.3%] -->
+          <div class="mn-s-img" id="mn-routine">
+            <div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+            <div class="mn-img-scroll">
+              <div class="mn-img-content">
+                <img src="../MindNumbers Interactive Phone items/Routine details.png" alt="Routine Details">
+                <div class="mn-hotspot" style="top:3%;left:2%;width:15%;height:3%;" onclick="mnGo('dash')"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Episodes [390x844 native, arrow at ~7.7%] -->
+          <div class="mn-s-img" id="mn-episodes">
+            <div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+            <div class="mn-img-scroll">
+              <div class="mn-img-content">
+                <img src="../MindNumbers Interactive Phone items/Episodes.png" alt="Episodes">
+                <div class="mn-hotspot" style="top:6%;left:2%;width:15%;height:6%;" onclick="mnGo('input')"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trends Tab -->
+          <div class="mn-s-img" id="mn-trends">
+            <div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+            <div class="mn-img-scroll">
+              <div class="mn-img-content">
+                <img src="../MindNumbers Interactive Phone items/Trends menu tab.png" alt="Trends">
+              </div>
+            </div>
+          </div>
+
+          <!-- More Tab -->
+          <div class="mn-s-img" id="mn-more">
+            <div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+            <div class="mn-img-scroll">
+              <div class="mn-img-content">
+                <img src="../MindNumbers Interactive Phone items/More Menu Tab.png" alt="More">
+              </div>
+            </div>
+          </div>
+
+          <!-- Record Tab -->
+          <div class="mn-s-img" id="mn-record">
+            <div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+            <div class="mn-img-scroll">
+              <div class="mn-img-content">
+                <img src="../MindNumbers Interactive Phone items/Records Menu Tab.png" alt="Record">
+                <!-- Hotspot: Record a voice sample button -->
+                <div class="mn-hotspot" style="top:11.5%;left:5%;width:90%;height:3%;" onclick="mnGo('voice-rec')"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Voice Recording Page -->
+          <div class="mn-s-img" id="mn-voice-rec">
+            <div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+            <div class="mn-img-scroll">
+              <div class="mn-img-content">
+                <img src="../MindNumbers Interactive Phone items/Voice Recording.png" alt="Voice Recording">
+              </div>
+            </div>
+          </div>
+
+          <!-- Meds Tab (Meds Taken) -->
+          <div class="mn-s-img" id="mn-meds">
+            <div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+            <div class="mn-img-scroll">
+              <div class="mn-img-content">
+                <img src="../MindNumbers Interactive Phone items/Meds Menu Tab.png" alt="Meds">
+                <!-- Hotspot: Your prescription tab -->
+                <div class="mn-hotspot" style="top:9%;left:50%;width:45%;height:4%;" onclick="mnGo('meds-rx')"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Meds Tab (Your Prescription) -->
+          <div class="mn-s-img" id="mn-meds-rx">
+            <div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+            <div class="mn-img-scroll">
+              <div class="mn-img-content">
+                <img src="../MindNumbers Interactive Phone items/Meds Prescription Tab.png" alt="Your Prescription">
+                <!-- Hotspot: Meds taken tab -->
+                <div class="mn-hotspot" style="top:9%;left:5%;width:45%;height:4%;" onclick="mnGo('meds')"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Persistent Bottom Nav -->
+          <div class="mn-nav-global">
+            <div class="mn-nav-item mn-nav-on" data-nav="home" onclick="mnGo('dash')">
+              <img class="mn-nav-active" src="../MindNumbers Interactive Phone items/Home Button Active.png" alt="Home">
+              <img class="mn-nav-inactive" src="../MindNumbers Interactive Phone items/Home Button Inactive.png" alt="Home">
+            </div>
+            <div class="mn-nav-item" data-nav="trends" onclick="mnGo('trends')">
+              <img class="mn-nav-active" src="../MindNumbers Interactive Phone items/Trends Button Active.png" alt="Trends">
+              <img class="mn-nav-inactive" src="../MindNumbers Interactive Phone items/Trends Button Inactive.png" alt="Trends">
+            </div>
+            <div class="mn-nav-item" data-nav="record" onclick="mnGo('record')">
+              <img class="mn-nav-active" src="../MindNumbers Interactive Phone items/Record Button Active.png" alt="Record">
+              <img class="mn-nav-inactive" src="../MindNumbers Interactive Phone items/Record Button Inactive.png" alt="Record">
+            </div>
+            <div class="mn-nav-item" data-nav="meds" onclick="mnGo('meds')">
+              <img class="mn-nav-active" src="../MindNumbers Interactive Phone items/Meds Button Active.png" alt="Meds">
+              <img class="mn-nav-inactive" src="../MindNumbers Interactive Phone items/Meds Button Inactive.png" alt="Meds">
+            </div>
+            <div class="mn-nav-item" data-nav="more" onclick="mnGo('more')">
+              <img class="mn-nav-active" src="../MindNumbers Interactive Phone items/More Button Active.png" alt="More">
+              <img class="mn-nav-inactive" src="../MindNumbers Interactive Phone items/More Button Inactive.png" alt="More">
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="mn-tap-instruction"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M8 14V7.5a1.5 1.5 0 0 1 3 0V12"/><path d="M11 11.5V9.5a1.5 1.5 0 0 1 3 0V12"/><path d="M14 10.5a1.5 1.5 0 0 1 3 0V12"/><path d="M17 11.5V14a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6V9.5a1.5 1.5 0 0 1 3 0"/></svg> <strong>Tap the cards</strong> inside to navigate</div>
+    </div>
+
+    <!-- Right side hints (Phone tabs) -->
+    <div class="mn-demo-right">
+      <div class="mn-hint-card" id="mn-hint-trends" onclick="mnGo('trends')">
+        <h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Trends</h4>
+      </div>
+      <div class="mn-hint-card" id="mn-hint-record" onclick="mnGo('record')">
+        <h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span> Record</h4>
+      </div>
+      <div class="mn-hint-card" id="mn-hint-meds" onclick="mnGo('meds')">
+        <h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 1.5H8A6.5 6.5 0 0 0 8 14.5h8A6.5 6.5 0 0 0 16 1.5h-2.5"/><line x1="9" y1="8" x2="15" y2="8"/></svg></span> Meds</h4>
+      </div>
+      <div class="mn-hint-card" id="mn-hint-more" onclick="mnGo('more')">
+        <h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></span> More</h4>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // ========== INTERACTIVE DEMO NAVIGATION ==========
+  var mnCurrent = 'dash';
+  var mnAllScreens = ['dash','input','mood','sleep','activity','routine','episodes','trends','record','voice-rec','meds','meds-rx','more'];
+  var mnHistory = ['dash'];
+
+  function mnBack() {
+    if (mnHistory.length > 1) {
+      var prevId = mnHistory[mnHistory.length - 2];
+      mnGo(prevId);
+    }
+  }
+
+  function mnGo(id) {
+    if (id === mnCurrent) return;
+
+    // Determine direction: back if going to a screen earlier in history
+    var isBack = false;
+    var histIdx = mnHistory.indexOf(id);
+    if (histIdx !== -1 && histIdx < mnHistory.length - 1) {
+      // Going to a screen we came from — this is a back navigation
+      isBack = true;
+      mnHistory = mnHistory.slice(0, histIdx + 1);
+    } else {
+      mnHistory.push(id);
+    }
+
+    var oldEl = document.getElementById('mn-' + mnCurrent);
+    var newEl = document.getElementById('mn-' + id);
+
+    if (oldEl) {
+      oldEl.classList.remove('mn-active');
+      oldEl.classList.add(isBack ? 'mn-exit-back' : 'mn-exit');
+      setTimeout(function() { oldEl.classList.remove('mn-exit', 'mn-exit-back', 'mn-enter-back'); }, 400);
+    }
+    if (newEl) {
+      if (isBack) {
+        // Slide in from left: set initial position, then activate
+        newEl.classList.add('mn-enter-back');
+        // Force reflow so the initial position takes effect before transition
+        newEl.offsetHeight;
+      }
+      newEl.classList.add('mn-active');
+      // Clean up the enter-back class after transition
+      if (isBack) {
+        setTimeout(function() { newEl.classList.remove('mn-enter-back'); }, 400);
+      }
+      // Reset scroll to top when entering a new screen
+      var scrollArea = newEl.querySelector('.mn-img-scroll');
+      if (scrollArea) scrollArea.scrollTop = 0;
+    }
+
+    mnCurrent = id;
+
+    // Update side hint cards
+    document.querySelectorAll('.mn-hint-card').forEach(function(c) { c.classList.remove('active-hint'); });
+    var hint = document.getElementById('mn-hint-' + id);
+    if (hint) hint.classList.add('active-hint');
+    // Dashboard screens highlight the dash hint
+    if (id === 'dash' || id === 'input') {
+      var dashHint = document.getElementById('mn-hint-dash');
+      if (dashHint) dashHint.classList.add('active-hint');
+    }
+
+    // Update global bottom nav active state
+    var globalNav = document.querySelector('.mn-nav-global');
+    if (globalNav) {
+      globalNav.querySelectorAll('.mn-nav-item').forEach(function(item) { item.classList.remove('mn-nav-on'); });
+      // Map screens to their nav tab
+      var navMap = { 'trends': 'trends', 'record': 'record', 'voice-rec': 'record', 'meds': 'meds', 'meds-rx': 'meds', 'more': 'more' };
+      var navKey = navMap[id] || 'home';
+      var activeItem = globalNav.querySelector('.mn-nav-item[data-nav="' + navKey + '"]');
+      if (activeItem) activeItem.classList.add('mn-nav-on');
+    }
+  }
+</script>
+
+</body>
+</html>
