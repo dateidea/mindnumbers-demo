@@ -350,9 +350,17 @@
 
     /* ============ RESPONSIVE ============ */
     @media (max-width: 900px) {
-      .mn-demo-container { grid-template-columns: 1fr; justify-items: center; gap: 24px; }
-      .mn-demo-left, .mn-demo-right { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: stretch; }
-      .mn-hint-card { max-width: 220px; }
+      .mn-demo-container { grid-template-columns: 1fr; justify-items: center; gap: 32px; }
+      .mn-demo-left, .mn-demo-right {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .mn-hint-card { width: 140px; padding: 12px 14px; }
+      .mn-hint-card h4 { font-size: 13px; }
+      .mn-dash-btn { width: 140px; font-size: 13px; padding: 8px 16px; }
       .mn-demo-left { order: 2; }
       .mn-demo-right { order: 3; }
     }
@@ -360,6 +368,16 @@
       .mn-phone { width: 270px; height: 580px; border-radius: 46px; }
       .mn-screen { border-radius: 43px; }
       .mn-demo-section .section-header h2 { font-size: 24px; }
+      .mn-demo-section { padding: 40px 16px; }
+      .mn-demo-left, .mn-demo-right {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        width: 100%;
+        max-width: 300px;
+      }
+      .mn-hint-card { width: auto; }
+      .mn-dash-btn { width: auto; grid-column: 1 / -1; }
     }
   </style>
 </head>
