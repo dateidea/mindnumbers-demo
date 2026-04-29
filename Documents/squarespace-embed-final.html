@@ -1,0 +1,367 @@
+<style>.fluid-engine .fe-block:has(.mn-demo-section){grid-column:1/-1!important;}</style>
+<!--
+  ============================================================================
+  MindNumbers Interactive Phone Demo — Squarespace Code Block (FINAL)
+  ============================================================================
+  Drop-in demo with two ways to swap images:
+
+  WAY 1 (drag-drop, recommended for non-coders):
+    On the SAME page as this Code Block, add a Squarespace IMAGE BLOCK and set
+    its ALT TEXT to one of the keys below (e.g. "sleep-details"). The demo
+    automatically picks up that image and hides the block. To swap the image:
+    edit that block, drag-drop a new image, click Save → Publish.
+
+  WAY 2 (URL paste):
+    Edit this Code Block, find the MN_ASSETS object below, paste a URL
+    between the quotes for the line you want to change. Save → Publish.
+
+  Default images point at GitHub Pages — the demo works out of the box.
+  ============================================================================
+-->
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  .mn-demo-section {
+    --navy: #1B2A4A;
+    --purple: #7C5CFC;
+    --purple-light: #EDE9FE;
+    --blue: #4A90D9;
+    --green: #34A853;
+    --yellow: #F5A623;
+    --red: #E74C3C;
+    --bg: #F8F9FC;
+    --white: #FFFFFF;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow-lg: 0 8px 40px rgba(27, 42, 74, 0.12);
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--gray-800);
+    line-height: 1.6;
+    padding: 60px 24px;
+    background: transparent;
+  }
+  .mn-demo-section * { margin: 0; padding: 0; box-sizing: border-box; }
+  .mn-demo-section .section-header { text-align: center; max-width: 600px; margin: 0 auto 48px; }
+  .mn-demo-section .section-label { display: inline-block; background: var(--purple-light); color: var(--purple); font-size: 13px; font-weight: 700; padding: 4px 14px; border-radius: 100px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .mn-demo-section .section-header h2 { font-size: 32px; font-weight: 800; color: var(--navy); margin-bottom: 12px; }
+  .mn-demo-section .section-header p { font-size: 16px; color: var(--gray-500); }
+  .mn-demo-section .mn-demo-container { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; gap: 40px; align-items: center; }
+  .mn-demo-section .mn-demo-left { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+  .mn-demo-section .mn-demo-right { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+  .mn-demo-section .mn-hint-card { background: var(--bg); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 16px 20px; width: 200px; transition: all 0.3s; cursor: pointer; }
+  .mn-demo-section .mn-hint-card:hover { border-color: var(--purple); transform: translateY(-2px); }
+  .mn-demo-section .mn-hint-card.active-hint { border-color: var(--purple); background: var(--purple-light); }
+  .mn-demo-section .mn-hint-card h4 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+  .mn-demo-section .mn-hint-card p { font-size: 13px; color: var(--gray-500); line-height: 1.4; }
+  .mn-demo-section .mn-hint-icon { font-size: 20px; }
+  .mn-demo-section .mn-tap-instruction { text-align: center; font-size: 14px; color: var(--gray-400); margin-top: 12px; }
+  .mn-demo-section .mn-tap-instruction strong { color: var(--purple); }
+  .mn-demo-section .mn-phone { width: 310px; height: 660px; background: #000; border-radius: 52px; border: 3px solid #2a2a2a; overflow: visible; box-shadow: 0 0 0 1px #1a1a1a, 0 0 0 3px #3a3a3a, 0 0 0 4px #1a1a1a, 0 20px 60px rgba(0,0,0,0.25), 0 8px 20px rgba(0,0,0,0.15); position: relative; flex-shrink: 0; }
+  .mn-demo-section .mn-phone::before { content: ''; position: absolute; left: -5px; top: 115px; width: 4px; height: 24px; background: linear-gradient(to right, #4a4a4a, #3a3a3a); border-radius: 3px 0 0 3px; box-shadow: 0 42px 0 0 #3a3a3a, 0 80px 0 0 #3a3a3a; z-index: 0; }
+  .mn-demo-section .mn-phone::after { content: ''; position: absolute; right: -5px; top: 155px; width: 4px; height: 64px; background: linear-gradient(to left, #4a4a4a, #3a3a3a); border-radius: 0 3px 3px 0; z-index: 0; }
+  .mn-demo-section .mn-phone .phone-notch { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 95px; height: 26px; background: #000; border-radius: 20px; z-index: 10; }
+  .mn-demo-section .mn-phone .phone-notch::after { content: ''; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; background: radial-gradient(circle at 40% 40%, #1a2744, #0a0a1a); box-shadow: inset 0 0 2px rgba(255,255,255,0.1); }
+  .mn-demo-section .mn-screen { width: 100%; height: 100%; overflow: hidden; position: relative; border-radius: 49px; background: var(--bg); z-index: 1; }
+  .mn-demo-section .mn-s-img { position: absolute; inset: 0; opacity: 0; transform: translateX(30px); transition: opacity 0.35s, transform 0.35s; pointer-events: none; background: var(--bg); }
+  .mn-demo-section .mn-s-img.mn-active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+  .mn-demo-section .mn-s-img.mn-exit { transform: translateX(-30px); opacity: 0; }
+  .mn-demo-section .mn-s-img.mn-enter-back { transform: translateX(-30px); }
+  .mn-demo-section .mn-s-img.mn-enter-back.mn-active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+  .mn-demo-section .mn-s-img.mn-exit-back { transform: translateX(30px); opacity: 0; }
+  .mn-demo-section .mn-img-scroll { width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+  .mn-demo-section .mn-img-scroll::-webkit-scrollbar { display: none; }
+  .mn-demo-section .mn-img-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+  .mn-demo-section .mn-img-content { position: relative; width: 100%; }
+  .mn-demo-section .mn-img-content img { width: 100%; height: auto; display: block; }
+  .mn-demo-section .mn-hotspot { position: absolute; cursor: pointer; z-index: 5; }
+  .mn-demo-section .mn-hotspot-fixed { position: absolute; cursor: pointer; z-index: 15; }
+  .mn-demo-section .mn-nav-global { position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: white; border-top: 1px solid var(--gray-100); display: flex; align-items: center; justify-content: space-around; z-index: 20; padding: 0 4px; }
+  .mn-demo-section .mn-nav-item { text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px 0; min-width: 44px; transition: opacity 0.2s; }
+  .mn-demo-section .mn-nav-item.mn-nav-on { opacity: 1; }
+  .mn-demo-section .mn-nav-item img { width: 48px; height: 48px; object-fit: contain; }
+  .mn-demo-section .mn-nav-item .mn-nav-active { display: none; }
+  .mn-demo-section .mn-nav-item .mn-nav-inactive { display: block; }
+  .mn-demo-section .mn-nav-item.mn-nav-on .mn-nav-active { display: block; }
+  .mn-demo-section .mn-nav-item.mn-nav-on .mn-nav-inactive { display: none; }
+  .mn-demo-section .mn-dash-btn { background: var(--purple); color: #fff; border: none; border-radius: 100px; padding: 10px 24px; font-size: 15px; font-weight: 700; font-family: 'Inter', -apple-system, sans-serif; cursor: pointer; display: flex; align-items: center; gap: 8px; width: 200px; justify-content: center; transition: all 0.3s; box-shadow: 0 4px 16px rgba(124, 92, 252, 0.3); }
+  .mn-demo-section .mn-dash-btn:hover { background: #6a4ae0; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124, 92, 252, 0.4); }
+  .mn-demo-section .mn-dash-btn.active-hint { background: #6a4ae0; box-shadow: 0 6px 20px rgba(124, 92, 252, 0.5); }
+  .mn-demo-section .mn-dash-btn svg { stroke: #fff; }
+  .mn-demo-section .mn-back-btn { position: absolute; top: 52px; left: 14px; width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.9); border: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 25; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: background 0.2s, transform 0.15s; }
+  .mn-demo-section .mn-back-btn:hover { background: #fff; transform: scale(1.1); }
+  .mn-demo-section .mn-back-btn svg { width: 14px; height: 14px; stroke: var(--navy); }
+  @media (max-width: 900px) {
+    .mn-demo-section .mn-demo-container { grid-template-columns: 1fr; justify-items: center; gap: 32px; }
+    .mn-demo-section .mn-demo-left, .mn-demo-section .mn-demo-right { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: stretch; gap: 10px; }
+    .mn-demo-section .mn-hint-card { width: 140px; padding: 12px 14px; }
+    .mn-demo-section .mn-hint-card h4 { font-size: 13px; }
+    .mn-demo-section .mn-dash-btn { width: 140px; font-size: 13px; padding: 8px 16px; }
+    .mn-demo-section .mn-demo-left { order: 2; }
+    .mn-demo-section .mn-demo-right { order: 3; }
+  }
+  @media (max-width: 480px) {
+    .mn-demo-section .mn-phone { width: 270px; height: 580px; border-radius: 46px; }
+    .mn-demo-section .mn-screen { border-radius: 43px; }
+    .mn-demo-section .section-header h2 { font-size: 24px; }
+    .mn-demo-section { padding: 40px 16px; }
+    .mn-demo-section .mn-demo-left, .mn-demo-section .mn-demo-right { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 300px; }
+    .mn-demo-section .mn-hint-card { width: auto; }
+    .mn-demo-section .mn-dash-btn { width: auto; grid-column: 1 / -1; }
+  }
+</style>
+
+<section class="mn-demo-section" id="try-it">
+  <div class="section-header">
+    <span class="section-label">Try It</span>
+    <h2>Experience the app right here</h2>
+    <p>Tap the cards inside the phone to explore, just like using the real app.</p>
+  </div>
+  <div class="mn-demo-container">
+    <div class="mn-demo-left">
+      <div class="mn-dash-btn active-hint" id="mn-hint-dash" onclick="mnGo('dash')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="mn-hint-card" id="mn-hint-mood" onclick="mnGo('mood')"><h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span> Mood &amp; Speech</h4></div>
+      <div class="mn-hint-card" id="mn-hint-sleep" onclick="mnGo('sleep')"><h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span> Sleep</h4></div>
+      <div class="mn-hint-card" id="mn-hint-activity" onclick="mnGo('activity')"><h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span> Activity</h4></div>
+      <div class="mn-hint-card" id="mn-hint-routine" onclick="mnGo('routine')"><h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> Routine</h4></div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div class="mn-phone">
+        <div class="phone-notch"></div>
+        <div class="mn-screen">
+          <div class="mn-s-img mn-active" id="mn-dash"><div class="mn-img-scroll"><div class="mn-img-content">
+            <img data-asset="dashboard-main" alt="dashboard-main">
+            <div class="mn-hotspot" style="top:18.5%;left:48%;width:38%;height:3.5%;" onclick="mnGo('input')"></div>
+            <div class="mn-hotspot" style="top:35%;left:5%;width:43%;height:18%;" onclick="mnGo('mood')"></div>
+            <div class="mn-hotspot" style="top:35%;left:52%;width:43%;height:18%;" onclick="mnGo('sleep')"></div>
+            <div class="mn-hotspot" style="top:53.5%;left:5%;width:43%;height:19%;" onclick="mnGo('activity')"></div>
+            <div class="mn-hotspot" style="top:53.5%;left:52%;width:43%;height:19%;" onclick="mnGo('routine')"></div>
+          </div></div></div>
+
+          <div class="mn-s-img" id="mn-input"><div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="mn-img-scroll"><div class="mn-img-content">
+            <img data-asset="dashboard-my-input" alt="dashboard-my-input">
+            <div class="mn-hotspot" style="top:10%;left:5%;width:38%;height:3%;" onclick="mnGo('dash')"></div>
+            <div class="mn-hotspot" style="top:20%;left:8%;width:84%;height:4%;" onclick="mnGo('voice-rec')"></div>
+            <div class="mn-hotspot" style="top:87%;left:15%;width:70%;height:4%;" onclick="mnGo('episodes')"></div>
+          </div></div></div>
+
+          <div class="mn-s-img" id="mn-mood"><div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="mn-img-scroll"><div class="mn-img-content">
+            <img data-asset="mood-and-speech-details" alt="mood-and-speech-details">
+            <div class="mn-hotspot" style="top:5.5%;left:2%;width:15%;height:4%;" onclick="mnGo('dash')"></div>
+          </div></div></div>
+
+          <div class="mn-s-img" id="mn-sleep"><div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="mn-img-scroll"><div class="mn-img-content">
+            <img data-asset="sleep-details" alt="sleep-details">
+            <div class="mn-hotspot" style="top:4%;left:2%;width:15%;height:3.5%;" onclick="mnGo('dash')"></div>
+          </div></div></div>
+
+          <div class="mn-s-img" id="mn-activity"><div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="mn-img-scroll"><div class="mn-img-content">
+            <img data-asset="activity-details" alt="activity-details">
+            <div class="mn-hotspot" style="top:6%;left:2%;width:15%;height:5%;" onclick="mnGo('dash')"></div>
+          </div></div></div>
+
+          <div class="mn-s-img" id="mn-routine"><div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="mn-img-scroll"><div class="mn-img-content">
+            <img data-asset="routine-details" alt="routine-details">
+            <div class="mn-hotspot" style="top:3%;left:2%;width:15%;height:3%;" onclick="mnGo('dash')"></div>
+          </div></div></div>
+
+          <div class="mn-s-img" id="mn-episodes"><div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="mn-img-scroll"><div class="mn-img-content">
+            <img data-asset="episodes-list" alt="episodes-list">
+            <div class="mn-hotspot" style="top:6%;left:2%;width:15%;height:6%;" onclick="mnGo('input')"></div>
+          </div></div></div>
+
+          <div class="mn-s-img" id="mn-trends"><div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="mn-img-scroll"><div class="mn-img-content">
+            <img data-asset="trends-tab" alt="trends-tab">
+          </div></div></div>
+
+          <div class="mn-s-img" id="mn-more"><div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="mn-img-scroll"><div class="mn-img-content">
+            <img data-asset="more-tab" alt="more-tab">
+          </div></div></div>
+
+          <div class="mn-s-img" id="mn-record"><div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="mn-img-scroll"><div class="mn-img-content">
+            <img data-asset="record-tab" alt="record-tab">
+            <div class="mn-hotspot" style="top:11.5%;left:5%;width:90%;height:3%;" onclick="mnGo('voice-rec')"></div>
+          </div></div></div>
+
+          <div class="mn-s-img" id="mn-voice-rec"><div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="mn-img-scroll"><div class="mn-img-content">
+            <img data-asset="voice-recording" alt="voice-recording">
+          </div></div></div>
+
+          <div class="mn-s-img" id="mn-meds"><div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="mn-img-scroll"><div class="mn-img-content">
+            <img data-asset="meds-tab-taken" alt="meds-tab-taken">
+            <div class="mn-hotspot" style="top:9%;left:50%;width:45%;height:4%;" onclick="mnGo('meds-rx')"></div>
+          </div></div></div>
+
+          <div class="mn-s-img" id="mn-meds-rx"><div class="mn-back-btn" onclick="mnBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="mn-img-scroll"><div class="mn-img-content">
+            <img data-asset="meds-tab-prescription" alt="meds-tab-prescription">
+            <div class="mn-hotspot" style="top:9%;left:5%;width:45%;height:4%;" onclick="mnGo('meds')"></div>
+          </div></div></div>
+
+          <div class="mn-nav-global">
+            <div class="mn-nav-item mn-nav-on" data-nav="home" onclick="mnGo('dash')">
+              <img class="mn-nav-active" data-asset="nav-home-active" alt="nav-home-active">
+              <img class="mn-nav-inactive" data-asset="nav-home-inactive" alt="nav-home-inactive">
+            </div>
+            <div class="mn-nav-item" data-nav="trends" onclick="mnGo('trends')">
+              <img class="mn-nav-active" data-asset="nav-trends-active" alt="nav-trends-active">
+              <img class="mn-nav-inactive" data-asset="nav-trends-inactive" alt="nav-trends-inactive">
+            </div>
+            <div class="mn-nav-item" data-nav="record" onclick="mnGo('record')">
+              <img class="mn-nav-active" data-asset="nav-record-active" alt="nav-record-active">
+              <img class="mn-nav-inactive" data-asset="nav-record-inactive" alt="nav-record-inactive">
+            </div>
+            <div class="mn-nav-item" data-nav="meds" onclick="mnGo('meds')">
+              <img class="mn-nav-active" data-asset="nav-meds-active" alt="nav-meds-active">
+              <img class="mn-nav-inactive" data-asset="nav-meds-inactive" alt="nav-meds-inactive">
+            </div>
+            <div class="mn-nav-item" data-nav="more" onclick="mnGo('more')">
+              <img class="mn-nav-active" data-asset="nav-more-active" alt="nav-more-active">
+              <img class="mn-nav-inactive" data-asset="nav-more-inactive" alt="nav-more-inactive">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mn-tap-instruction"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M8 14V7.5a1.5 1.5 0 0 1 3 0V12"/><path d="M11 11.5V9.5a1.5 1.5 0 0 1 3 0V12"/><path d="M14 10.5a1.5 1.5 0 0 1 3 0V12"/><path d="M17 11.5V14a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6V9.5a1.5 1.5 0 0 1 3 0"/></svg> <strong>Tap the cards</strong> inside to navigate</div>
+    </div>
+
+    <div class="mn-demo-right">
+      <div class="mn-hint-card" id="mn-hint-trends" onclick="mnGo('trends')"><h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Trends</h4></div>
+      <div class="mn-hint-card" id="mn-hint-record" onclick="mnGo('record')"><h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span> Record</h4></div>
+      <div class="mn-hint-card" id="mn-hint-meds" onclick="mnGo('meds')"><h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 1.5H8A6.5 6.5 0 0 0 8 14.5h8A6.5 6.5 0 0 0 16 1.5h-2.5"/><line x1="9" y1="8" x2="15" y2="8"/></svg></span> Meds</h4></div>
+      <div class="mn-hint-card" id="mn-hint-more" onclick="mnGo('more')"><h4><span class="mn-hint-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></span> More</h4></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // ===== MN_ASSETS — paste a URL between the quotes to swap any image. =====
+  // Or, easier: add an Image Block to this page with ALT TEXT matching the
+  // key (e.g. alt="sleep-details"). The demo will automatically use it.
+  var MN_ASSETS = {
+    'dashboard-main':          'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/dashboard-main.png',
+    'dashboard-my-input':      'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/dashboard-my-input.png',
+    'mood-and-speech-details': 'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/mood-and-speech-details.png',
+    'sleep-details':           'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/sleep-details.png',
+    'activity-details':        'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/activity-details.png',
+    'routine-details':         'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/routine-details.png',
+    'episodes-list':           'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/episodes-list.png',
+    'trends-tab':              'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/trends-tab.png',
+    'more-tab':                'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/more-tab.png',
+    'record-tab':              'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/record-tab.png',
+    'voice-recording':         'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/voice-recording.png',
+    'meds-tab-taken':          'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/meds-tab-taken.png',
+    'meds-tab-prescription':   'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/meds-tab-prescription.png',
+    'nav-home-active':         'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/nav-home-active.png',
+    'nav-home-inactive':       'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/nav-home-inactive.png',
+    'nav-trends-active':       'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/nav-trends-active.png',
+    'nav-trends-inactive':     'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/nav-trends-inactive.png',
+    'nav-record-active':       'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/nav-record-active.png',
+    'nav-record-inactive':     'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/nav-record-inactive.png',
+    'nav-meds-active':         'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/nav-meds-active.png',
+    'nav-meds-inactive':       'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/nav-meds-inactive.png',
+    'nav-more-active':         'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/nav-more-active.png',
+    'nav-more-inactive':       'https://dateidea.github.io/mindnumbers-demo/MindNumbers%20Interactive%20Phone%20items/nav-more-inactive.png'
+  };
+
+  // Override from sibling Image Blocks. Match by alt text (case-insensitive).
+  function mnApplyImageBlockOverrides() {
+    var imageBlocks = document.querySelectorAll('.sqs-block-image, [data-block-type="5"]');
+    imageBlocks.forEach(function(block) {
+      var img = block.querySelector('img');
+      if (!img) return;
+      var alt = (img.getAttribute('alt') || '').trim().toLowerCase();
+      if (!alt) return;
+      // Try exact match
+      if (MN_ASSETS.hasOwnProperty(alt)) {
+        var realSrc = img.currentSrc || img.getAttribute('data-src') || img.src;
+        if (realSrc && realSrc.indexOf('data:') !== 0) {
+          MN_ASSETS[alt] = realSrc;
+          block.style.display = 'none';
+        }
+      }
+    });
+  }
+
+  function mnFillAssets() {
+    document.querySelectorAll('.mn-demo-section [data-asset]').forEach(function(el) {
+      var key = el.getAttribute('data-asset');
+      if (MN_ASSETS[key]) el.src = MN_ASSETS[key];
+    });
+  }
+
+  function mnInit() {
+    mnApplyImageBlockOverrides();
+    mnFillAssets();
+    // Re-scan once Squarespace finishes loading deferred image srcs
+    setTimeout(function() { mnApplyImageBlockOverrides(); mnFillAssets(); }, 800);
+    setTimeout(function() { mnApplyImageBlockOverrides(); mnFillAssets(); }, 2500);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mnInit);
+  } else {
+    mnInit();
+  }
+
+  var mnCurrent = 'dash';
+  var mnHistory = ['dash'];
+
+  function mnBack() {
+    mnGo('dash');
+  }
+
+  function mnGo(id) {
+    if (id === mnCurrent) return;
+    var isBack = false;
+    var histIdx = mnHistory.indexOf(id);
+    if (histIdx !== -1 && histIdx < mnHistory.length - 1) {
+      isBack = true;
+      mnHistory = mnHistory.slice(0, histIdx + 1);
+    } else {
+      mnHistory.push(id);
+    }
+    var oldEl = document.getElementById('mn-' + mnCurrent);
+    var newEl = document.getElementById('mn-' + id);
+    if (oldEl) {
+      oldEl.classList.remove('mn-active');
+      oldEl.classList.add(isBack ? 'mn-exit-back' : 'mn-exit');
+      setTimeout(function() { oldEl.classList.remove('mn-exit', 'mn-exit-back', 'mn-enter-back'); }, 400);
+    }
+    if (newEl) {
+      if (isBack) { newEl.classList.add('mn-enter-back'); newEl.offsetHeight; }
+      newEl.classList.add('mn-active');
+      if (isBack) { setTimeout(function() { newEl.classList.remove('mn-enter-back'); }, 400); }
+      var scrollArea = newEl.querySelector('.mn-img-scroll');
+      if (scrollArea) scrollArea.scrollTop = 0;
+    }
+    mnCurrent = id;
+    document.querySelectorAll('.mn-demo-section .mn-hint-card').forEach(function(c) { c.classList.remove('active-hint'); });
+    var hint = document.getElementById('mn-hint-' + id);
+    if (hint) hint.classList.add('active-hint');
+    if (id === 'dash' || id === 'input') {
+      var dashHint = document.getElementById('mn-hint-dash');
+      if (dashHint) dashHint.classList.add('active-hint');
+    }
+    var globalNav = document.querySelector('.mn-demo-section .mn-nav-global');
+    if (globalNav) {
+      globalNav.querySelectorAll('.mn-nav-item').forEach(function(item) { item.classList.remove('mn-nav-on'); });
+      var navMap = { 'trends': 'trends', 'record': 'record', 'voice-rec': 'record', 'meds': 'meds', 'meds-rx': 'meds', 'more': 'more' };
+      var navKey = navMap[id] || 'home';
+      var activeItem = globalNav.querySelector('.mn-nav-item[data-nav="' + navKey + '"]');
+      if (activeItem) activeItem.classList.add('mn-nav-on');
+    }
+  }
+</script>
