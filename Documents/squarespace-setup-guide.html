@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MindNumbers — Interactive Phone Demo Setup Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B2A4A;
+    --navy-deep: #0B0B1A;
+    --purple: #7C5CFC;
+    --purple-dark: #6A4AE0;
+    --purple-light: #EDE9FE;
+    --purple-soft: #F3EFFF;
+    --blue: #4A90D9;
+    --green: #34A853;
+    --yellow: #F5A623;
+    --red: #E74C3C;
+    --bg: #F8F9FC;
+    --white: #FFFFFF;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --gradient-hero: linear-gradient(135deg, #7C5CFC 0%, #4A90D9 100%);
+    --gradient-dark: linear-gradient(160deg, #0B0B1A 0%, #1A103A 50%, #0D1B3E 100%);
+    --shadow-sm: 0 1px 3px rgba(27, 42, 74, 0.06);
+    --shadow: 0 4px 16px rgba(27, 42, 74, 0.08);
+    --shadow-lg: 0 12px 40px rgba(27, 42, 74, 0.12);
+    --radius-sm: 10px;
+    --radius: 16px;
+    --radius-lg: 24px;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--navy);
+    background: var(--bg);
+    line-height: 1.6;
+  }
+  code, pre, .mono { font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace; }
+
+  /* ========= HERO ========= */
+  .hero {
+    background: var(--gradient-dark);
+    color: #fff;
+    padding: 72px 24px 96px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(124, 92, 252, 0.35) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(74, 144, 217, 0.25) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 24px;
+  }
+  .brand-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--purple);
+    box-shadow: 0 0 12px rgba(124, 92, 252, 0.8);
+  }
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(90deg, #fff 0%, #C7B8FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.75);
+    max-width: 620px;
+    line-height: 1.6;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .hero-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .hero-chip svg { width: 14px; height: 14px; opacity: 0.7; }
+
+  /* ========= MAIN ========= */
+  main {
+    max-width: 900px;
+    margin: -56px auto 80px;
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ========= OVERVIEW STRIP ========= */
+  .overview {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 40px;
+    border: 1px solid var(--gray-100);
+  }
+  .overview h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .overview p {
+    color: var(--gray-500);
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+  .overview-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .overview-step {
+    padding: 16px;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-100);
+  }
+  .overview-step-num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--purple);
+    margin-bottom: 4px;
+  }
+  .overview-step-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+
+  /* ========= SECTION HEADING ========= */
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 48px 0 20px;
+  }
+  .section-heading h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+  }
+  .section-heading .hint {
+    font-size: 13px;
+    color: var(--gray-400);
+  }
+
+  /* ========= PHASE CARDS ========= */
+  .phase {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: box-shadow 0.25s, border-color 0.25s;
+  }
+  .phase[open] {
+    box-shadow: var(--shadow);
+    border-color: var(--purple);
+  }
+  .phase summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    user-select: none;
+  }
+  .phase summary::-webkit-details-marker { display: none; }
+  .phase summary:hover { background: var(--purple-soft); }
+
+  .phase-num {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: var(--purple-light);
+    color: var(--purple);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: -0.02em;
+    transition: all 0.25s;
+  }
+  .phase[open] .phase-num {
+    background: var(--purple);
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(124, 92, 252, 0.35);
+  }
+  .phase-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .phase-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 2px;
+    line-height: 1.3;
+  }
+  .phase-teaser {
+    font-size: 14px;
+    color: var(--gray-500);
+  }
+  .phase-time {
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gray-500);
+    background: var(--gray-100);
+    padding: 4px 10px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .phase-chevron {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-400);
+    transition: transform 0.3s;
+  }
+  .phase[open] .phase-chevron { transform: rotate(180deg); color: var(--purple); }
+  .phase-chevron svg { width: 16px; height: 16px; }
+
+  .phase-content {
+    padding: 4px 28px 28px 92px;
+    border-top: 1px dashed var(--gray-200);
+    margin-top: 4px;
+    padding-top: 24px;
+  }
+  .phase-content h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 24px 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .phase-content h4:first-child { margin-top: 0; }
+  .phase-content p {
+    color: var(--gray-600);
+    font-size: 15px;
+    margin-bottom: 14px;
+  }
+  .phase-content ol, .phase-content ul {
+    margin: 0 0 16px 20px;
+    color: var(--gray-700);
+    font-size: 15px;
+  }
+  .phase-content li {
+    margin-bottom: 8px;
+    line-height: 1.65;
+  }
+  .phase-content li::marker { color: var(--purple); font-weight: 700; }
+  .phase-content strong { color: var(--navy); font-weight: 700; }
+  .phase-content code {
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* ========= CODE BLOCK ========= */
+  pre.code-block {
+    background: var(--navy-deep);
+    color: #E4E4F1;
+    padding: 20px 22px;
+    border-radius: var(--radius-sm);
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.65;
+    margin: 14px 0;
+    border: 1px solid rgba(124, 92, 252, 0.2);
+  }
+  pre.code-block .comment { color: #8B8BA3; font-style: italic; }
+  pre.code-block .key { color: #C7B8FF; }
+  pre.code-block .string { color: #7CE2A0; }
+
+  /* ========= FILE TABLE ========= */
+  .file-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px;
+    margin: 12px 0 16px;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .file-table thead {
+    background: var(--bg);
+  }
+  .file-table th {
+    text-align: left;
+    padding: 11px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .file-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--gray-100);
+    color: var(--gray-700);
+    vertical-align: top;
+  }
+  .file-table tbody tr:last-child td { border-bottom: none; }
+  .file-table td.num {
+    color: var(--gray-400);
+    font-weight: 600;
+    font-size: 12px;
+    width: 40px;
+  }
+  .file-table td.filename {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--purple-dark);
+    white-space: nowrap;
+  }
+  .file-table td.desc {
+    color: var(--gray-600);
+    font-size: 14px;
+  }
+  .group-row td {
+    background: var(--purple-soft);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 14px;
+  }
+
+  /* ========= INFO BOX ========= */
+  .info {
+    background: var(--purple-soft);
+    border-left: 3px solid var(--purple);
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: var(--navy);
+  }
+  .info strong { color: var(--purple-dark); }
+  .warn {
+    background: #FFF8E6;
+    border-left-color: var(--yellow);
+  }
+  .warn strong { color: #B8761A; }
+
+  /* ========= TROUBLESHOOTING ========= */
+  .trouble-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .trouble-card summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .trouble-card summary::-webkit-details-marker { display: none; }
+  .trouble-card summary:hover { background: var(--purple-soft); }
+  .trouble-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: #FFF0EF;
+    color: var(--red);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .trouble-icon svg { width: 18px; height: 18px; }
+  .trouble-title {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .trouble-chev {
+    color: var(--gray-400);
+    transition: transform 0.3s;
+  }
+  .trouble-card[open] .trouble-chev { transform: rotate(180deg); }
+  .trouble-content {
+    padding: 0 22px 22px 68px;
+    color: var(--gray-600);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* ========= FOOTER ========= */
+  footer {
+    text-align: center;
+    padding: 48px 24px 32px;
+    color: var(--gray-400);
+    font-size: 13px;
+  }
+
+  /* ========= RESPONSIVE ========= */
+  @media (max-width: 640px) {
+    .hero { padding: 56px 20px 80px; }
+    .hero h1 { font-size: 32px; }
+    .hero p { font-size: 16px; }
+    main { margin-top: -48px; padding: 0 16px; }
+    .overview { padding: 24px; }
+    .overview-steps { grid-template-columns: 1fr; }
+    .phase summary { padding: 18px 18px; gap: 14px; }
+    .phase-num { width: 38px; height: 38px; font-size: 14px; }
+    .phase-title { font-size: 15px; }
+    .phase-teaser { font-size: 13px; }
+    .phase-time { display: none; }
+    .phase-content { padding: 18px 18px 22px 18px; border-top: 1px dashed var(--gray-200); margin-top: 0; }
+    .file-table { font-size: 12px; }
+    .file-table td { padding: 8px 10px; }
+    .file-table td.filename { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="brand"><span class="brand-dot"></span> MindNumbers</div>
+    <h1>Interactive Phone Demo<br><span class="accent">Squarespace Setup Guide</span></h1>
+    <p>Everything needed to embed the interactive phone demo into your Squarespace site, plus the simple workflow for swapping any screen when the app design changes.</p>
+    <div class="hero-meta">
+      <span class="hero-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        ~20 minutes total
+      </span>
+      <span class="hero-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        6 simple phases
+      </span>
+      <span class="hero-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        30-sec swaps forever after
+      </span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- Overview strip -->
+  <div class="overview">
+    <h2>At a glance</h2>
+    <p>Click any phase below to expand the full step-by-step detail.</p>
+    <div class="overview-steps">
+      <div class="overview-step"><div class="overview-step-num">01 → 02</div><div class="overview-step-title">Upload 23 images to Squarespace</div></div>
+      <div class="overview-step"><div class="overview-step-num">03 → 04</div><div class="overview-step-title">Paste the code &amp; fill the URLs</div></div>
+      <div class="overview-step"><div class="overview-step-num">05 → 06</div><div class="overview-step-title">Verify &amp; learn the swap flow</div></div>
+    </div>
+  </div>
+
+  <div class="section-heading">
+    <h2>The phases</h2>
+    <span class="hint">Click to expand</span>
+  </div>
+
+  <!-- PHASE 01 -->
+  <details class="phase">
+    <summary>
+      <span class="phase-num">01</span>
+      <span class="phase-body">
+        <div class="phase-title">Grab the 23 images</div>
+        <div class="phase-teaser">13 screens + 10 bottom-nav icons, already renamed for clarity</div>
+      </span>
+      <span class="phase-time">2 min</span>
+      <span class="phase-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </summary>
+    <div class="phase-content">
+      <p>All 23 images needed for the demo live in the <code>MindNumbers Interactive Phone items/</code> folder of the repository. Each filename describes exactly which page of the app it represents, so anyone looking at the folder knows what's what.</p>
+
+      <h4>The 13 screens</h4>
+      <table class="file-table">
+        <thead><tr><th>#</th><th>Filename</th><th>What this page is</th></tr></thead>
+        <tbody>
+          <tr><td class="num">01</td><td class="filename">dashboard-main.png</td><td class="desc">First screen you see when you open the app</td></tr>
+          <tr><td class="num">02</td><td class="filename">dashboard-my-input.png</td><td class="desc">"My Input" tab of the dashboard, with the voice sample button</td></tr>
+          <tr><td class="num">03</td><td class="filename">mood-and-speech-details.png</td><td class="desc">Opens when someone taps the Mood &amp; Speech card</td></tr>
+          <tr><td class="num">04</td><td class="filename">sleep-details.png</td><td class="desc">Opens when someone taps the Sleep card</td></tr>
+          <tr><td class="num">05</td><td class="filename">activity-details.png</td><td class="desc">Opens when someone taps the Activity card</td></tr>
+          <tr><td class="num">06</td><td class="filename">routine-details.png</td><td class="desc">Opens when someone taps the Routine card</td></tr>
+          <tr><td class="num">07</td><td class="filename">episodes-list.png</td><td class="desc">List of past episodes</td></tr>
+          <tr><td class="num">08</td><td class="filename">trends-tab.png</td><td class="desc">Trends bottom-tab page</td></tr>
+          <tr><td class="num">09</td><td class="filename">more-tab.png</td><td class="desc">More bottom-tab page</td></tr>
+          <tr><td class="num">10</td><td class="filename">record-tab.png</td><td class="desc">Record bottom-tab page</td></tr>
+          <tr><td class="num">11</td><td class="filename">voice-recording.png</td><td class="desc">Live voice-recording screen</td></tr>
+          <tr><td class="num">12</td><td class="filename">meds-tab-taken.png</td><td class="desc">Meds tab — "Meds Taken" view</td></tr>
+          <tr><td class="num">13</td><td class="filename">meds-tab-prescription.png</td><td class="desc">Meds tab — "Your Prescription" view</td></tr>
+        </tbody>
+      </table>
+
+      <h4>The 10 bottom-nav icons</h4>
+      <table class="file-table">
+        <thead><tr><th>#</th><th>Filename</th><th>What this is</th></tr></thead>
+        <tbody>
+          <tr><td class="num">14</td><td class="filename">nav-home-active.png</td><td class="desc">Home icon, lit up (user is on Home)</td></tr>
+          <tr><td class="num">15</td><td class="filename">nav-home-inactive.png</td><td class="desc">Home icon, dimmed</td></tr>
+          <tr><td class="num">16</td><td class="filename">nav-trends-active.png</td><td class="desc">Trends icon, lit up</td></tr>
+          <tr><td class="num">17</td><td class="filename">nav-trends-inactive.png</td><td class="desc">Trends icon, dimmed</td></tr>
+          <tr><td class="num">18</td><td class="filename">nav-record-active.png</td><td class="desc">Record icon, lit up</td></tr>
+          <tr><td class="num">19</td><td class="filename">nav-record-inactive.png</td><td class="desc">Record icon, dimmed</td></tr>
+          <tr><td class="num">20</td><td class="filename">nav-meds-active.png</td><td class="desc">Meds icon, lit up</td></tr>
+          <tr><td class="num">21</td><td class="filename">nav-meds-inactive.png</td><td class="desc">Meds icon, dimmed</td></tr>
+          <tr><td class="num">22</td><td class="filename">nav-more-active.png</td><td class="desc">More icon, lit up</td></tr>
+          <tr><td class="num">23</td><td class="filename">nav-more-inactive.png</td><td class="desc">More icon, dimmed</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info"><strong>Already done for you:</strong> these files have been renamed from the originals so the filenames themselves describe the page. Just grab the folder.</div>
+    </div>
+  </details>
+
+  <!-- PHASE 02 -->
+  <details class="phase">
+    <summary>
+      <span class="phase-num">02</span>
+      <span class="phase-body">
+        <div class="phase-title">Upload all 23 images to Squarespace</div>
+        <div class="phase-teaser">One drag-and-drop into Custom Files gives you stable URLs</div>
+      </span>
+      <span class="phase-time">~5 min</span>
+      <span class="phase-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </summary>
+    <div class="phase-content">
+      <p>Custom Files is where Squarespace stores the most stable asset URLs — exactly what we want for images the phone demo relies on.</p>
+
+      <ol>
+        <li>Log into <strong>Squarespace</strong>.</li>
+        <li>In the left sidebar, go to <strong>Design → Custom CSS</strong>.</li>
+        <li>Scroll to the bottom of the Custom CSS panel and click <strong>Manage Custom Files</strong>.</li>
+        <li>Click <strong>Add Images or Fonts</strong>.</li>
+        <li>Drag all 23 PNGs from Finder into the upload area. You can select them all at once with <code>Cmd + A</code>.</li>
+        <li>Wait for uploads to finish. Keep this panel open — it'll be used again in Phase 04.</li>
+      </ol>
+
+      <div class="info"><strong>Why Custom Files?</strong> Image block URLs and gallery URLs can change when a page is re-published. Custom Files URLs stay put until the file is explicitly deleted — perfect for an embed that shouldn't break on its own.</div>
+    </div>
+  </details>
+
+  <!-- PHASE 03 -->
+  <details class="phase">
+    <summary>
+      <span class="phase-num">03</span>
+      <span class="phase-body">
+        <div class="phase-title">Add the Code Block to your page</div>
+        <div class="phase-teaser">Paste the entire demo into one Squarespace Code Block</div>
+      </span>
+      <span class="phase-time">~1 min</span>
+      <span class="phase-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </summary>
+    <div class="phase-content">
+      <p>One Code Block holds the entire interactive experience — layout, styles, and navigation logic in a single place.</p>
+
+      <ol>
+        <li>Go to the Squarespace page where the demo should live.</li>
+        <li>Click <strong>Edit</strong>.</li>
+        <li>Hover where the phone section should go, click the <strong>+</strong>, and choose <strong>Code</strong> from the block picker.</li>
+        <li>In the Code Block editor:
+          <ul>
+            <li><strong>Delete</strong> the default <code>&lt;p&gt;Hello, World!&lt;/p&gt;</code> placeholder.</li>
+            <li>Toggle <strong>Display Source OFF</strong> (switch at the bottom of the editor) — Squarespace should render the HTML, not show it as text.</li>
+          </ul>
+        </li>
+        <li>Open <code>squarespace-embed.html</code> in any text editor.</li>
+        <li>Select everything in the file (<code>Cmd + A</code>) and copy (<code>Cmd + C</code>).</li>
+        <li>Paste into the Squarespace Code Block.</li>
+        <li>Click <strong>Apply</strong>.</li>
+      </ol>
+
+      <div class="info warn"><strong>Expected at this point:</strong> the phone frame, hint cards, and layout all show up, but the screens inside the phone are blank. That's normal — Phase 04 fills them in.</div>
+    </div>
+  </details>
+
+  <!-- PHASE 04 -->
+  <details class="phase">
+    <summary>
+      <span class="phase-num">04</span>
+      <span class="phase-body">
+        <div class="phase-title">Paste the 23 image URLs into MN_ASSETS</div>
+        <div class="phase-teaser">The single place in the code that maps each screen to its image</div>
+      </span>
+      <span class="phase-time">~10 min</span>
+      <span class="phase-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </summary>
+    <div class="phase-content">
+      <p>At the bottom of the Code Block, inside the <code>&lt;script&gt;</code> section, there's a clearly fenced config object. This is the only place in the entire demo where image URLs live. Every screen is wired through it.</p>
+
+      <pre class="code-block"><span class="comment">// =====================================================================
+// EDIT HERE TO UPDATE IMAGES
+// =====================================================================</span>
+var MN_ASSETS = {
+  <span class="comment">// --- SCREENS ---</span>
+  <span class="key">dashboardMain</span>:       <span class="string">''</span>,  <span class="comment">// First screen you see when you open the app</span>
+  <span class="key">dashboardMyInput</span>:    <span class="string">''</span>,  <span class="comment">// "My Input" tab of the dashboard</span>
+  <span class="key">moodDetails</span>:         <span class="string">''</span>,  <span class="comment">// Detail page for the Mood &amp; Speech card</span>
+  <span class="comment">// ... 20 more lines, each with a comment telling you which image belongs there</span>
+};</pre>
+
+      <h4>How to fill it in</h4>
+      <ol>
+        <li>Click the Code Block on your page and choose <strong>Edit</strong>.</li>
+        <li>Open a <strong>second browser tab</strong> with <strong>Design → Custom CSS → Manage Custom Files</strong> (from Phase 02).</li>
+        <li>For each of the 23 lines in <code>MN_ASSETS</code>:
+          <ul>
+            <li>Find the matching filename in Manage Custom Files (e.g. <code>dashboard-main.png</code> corresponds to the <code>dashboardMain</code> line).</li>
+            <li>Click the file — Squarespace automatically copies its URL to the clipboard.</li>
+            <li>Go back to the Code Block and paste the URL <strong>between the quotes</strong>:
+              <pre class="code-block"><span class="key">dashboardMain</span>: <span class="string">'https://static1.squarespace.com/static/.../dashboard-main.png'</span>,</pre>
+            </li>
+            <li>Move to the next line.</li>
+          </ul>
+        </li>
+        <li>After the first 2 or 3, click <strong>Apply</strong> and preview — if those screens render, the pattern is correct. Finish the rest.</li>
+        <li>When all 23 are filled in, click <strong>Apply</strong> and <strong>Save</strong> the page.</li>
+      </ol>
+
+      <div class="info"><strong>Every line has a comment</strong> that tells you exactly which page of the app that image represents, so you can't mix them up.</div>
+    </div>
+  </details>
+
+  <!-- PHASE 05 -->
+  <details class="phase">
+    <summary>
+      <span class="phase-num">05</span>
+      <span class="phase-body">
+        <div class="phase-title">Verify it works</div>
+        <div class="phase-teaser">Quick walkthrough to confirm every screen and interaction is wired up</div>
+      </span>
+      <span class="phase-time">~2 min</span>
+      <span class="phase-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </summary>
+    <div class="phase-content">
+      <p>Preview the page (or view it published) and walk through each interaction.</p>
+
+      <h4>Checklist</h4>
+      <ul>
+        <li>Phone shows the Dashboard screen with all 4 cards (Mood, Sleep, Activity, Routine).</li>
+        <li>Tapping a card on the phone navigates to that detail page.</li>
+        <li>Tapping the hint cards on the side (Sleep, Activity, Trends, Record, etc.) navigates to those screens.</li>
+        <li>The back arrow (top-left inside the phone) returns to the previous screen.</li>
+        <li>The bottom nav icons switch between Home, Trends, Record, Meds, More.</li>
+        <li>"Meds Taken" and "Your Prescription" tabs switch correctly inside the Meds screen.</li>
+      </ul>
+
+      <div class="info"><strong>If something is blank or broken:</strong> right-click the page → <strong>Inspect</strong> → open the <strong>Console</strong> tab. Any warning like <code>Missing URL in MN_ASSETS for key: dashboardMyInput</code> tells you exactly which line in the config is empty or has a bad URL. Fix that line and re-save.</div>
+    </div>
+  </details>
+
+  <!-- PHASE 06 -->
+  <details class="phase">
+    <summary>
+      <span class="phase-num">06</span>
+      <span class="phase-body">
+        <div class="phase-title">Future workflow — swap any image in 30 seconds</div>
+        <div class="phase-teaser">Whenever the app redesigns, this is how the website stays current</div>
+      </span>
+      <span class="phase-time">30 sec</span>
+      <span class="phase-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </summary>
+    <div class="phase-content">
+      <p>When the app design changes and the demo on the site needs to reflect it, this is the full loop. No engineer required.</p>
+
+      <ol>
+        <li>Save the new PNG with the <strong>same filename</strong> as the old one (for example, a new Dashboard design gets saved as <code>dashboard-main.png</code>).</li>
+        <li>Go to <strong>Squarespace → Design → Custom CSS → Manage Custom Files → Add Images or Fonts</strong> and upload the new PNG.</li>
+        <li>Click the newly uploaded file in the Custom Files list — the URL is now on the clipboard.</li>
+        <li>Edit the page with the demo, click the Code Block, and choose <strong>Edit</strong>.</li>
+        <li>Scroll to the <code>MN_ASSETS</code> section.</li>
+        <li>Find the line matching the page being updated (each line has a comment describing what page it is).</li>
+        <li>Select the old URL between the quotes and paste the new URL over it.</li>
+        <li>Click <strong>Apply</strong> and <strong>Save</strong>.</li>
+      </ol>
+
+      <p>The page updates immediately for every visitor. That's the entire workflow.</p>
+
+      <div class="info warn"><strong>One thing to know:</strong> Squarespace generates a brand-new URL every time a file is uploaded — even with the same filename. That's why pasting the new URL into <code>MN_ASSETS</code> is the one step that can't be skipped. It's a Squarespace platform behavior, not a design choice on our end.</div>
+    </div>
+  </details>
+
+
+  <!-- TROUBLESHOOTING -->
+  <div class="section-heading">
+    <h2>Troubleshooting</h2>
+    <span class="hint">Common gotchas</span>
+  </div>
+
+  <details class="trouble-card">
+    <summary>
+      <span class="trouble-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+      <span class="trouble-title">An image isn't showing up</span>
+      <span class="trouble-chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </summary>
+    <div class="trouble-content">
+      Right-click the live page → <strong>Inspect</strong> → <strong>Console</strong>. Look for a warning like <code>Missing URL in MN_ASSETS for key: dashboardMain</code> — that's the exact line in <code>MN_ASSETS</code> that needs a URL. If the key already has a URL but the image still isn't loading, paste that URL into a new browser tab. If Squarespace returns a 404, the URL is wrong — re-copy it from Manage Custom Files.
+    </div>
+  </details>
+
+  <details class="trouble-card">
+    <summary>
+      <span class="trouble-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+      <span class="trouble-title">Code block shows as raw text instead of rendering</span>
+      <span class="trouble-chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </summary>
+    <div class="trouble-content">
+      The <strong>Display Source</strong> toggle at the bottom of the Code Block editor is turned ON. Turn it OFF — Squarespace will then render the HTML instead of showing it literally.
+    </div>
+  </details>
+
+  <details class="trouble-card">
+    <summary>
+      <span class="trouble-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h.01"/><path d="M15 9h.01"/><path d="M8 13h8"/><circle cx="12" cy="12" r="10"/></svg></span>
+      <span class="trouble-title">Hotspots and taps aren't responding</span>
+      <span class="trouble-chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </summary>
+    <div class="trouble-content">
+      JavaScript in Code Blocks requires a <strong>Business plan or higher</strong> in Squarespace. Check the current plan under <strong>Settings → Billing</strong>. On Personal plans, Squarespace strips the <code>&lt;script&gt;</code> tag and the demo loses its interactivity.
+    </div>
+  </details>
+
+  <details class="trouble-card">
+    <summary>
+      <span class="trouble-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span>
+      <span class="trouble-title">Font looks off or layout is cramped</span>
+      <span class="trouble-chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </summary>
+    <div class="trouble-content">
+      The demo loads the Inter font from Google Fonts. If Squarespace has global typography overrides, check <strong>Design → Site Styles → Fonts</strong>. The demo also has its own max-width (1100px) and padding — if the Squarespace section it lives in is unusually narrow, the layout may feel cramped. Placing the Code Block in a full-width section gives it the most room to breathe.
+    </div>
+  </details>
+
+</main>
+
+<footer>
+  MindNumbers · Interactive Phone Demo · Setup Guide
+</footer>
+
+</body>
+</html>
