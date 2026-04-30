@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About MindNumbers</title>
+  <meta name="description" content="MindNumbers was built for the 8 million Americans living with bipolar disorder and the families and clinicians supporting them. Read our story, meet the team, and learn what we believe.">
+  <meta property="og:title" content="About MindNumbers Built for the 8 million">
+  <meta property="og:description" content="Why we started, what we believe, and the team building bipolar wellness that works quietly in the background.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Caveat:wght@500;700&family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: var(--text); background: var(--surface); overflow-x: hidden; line-height: 1.6; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    button { border: none; cursor: pointer; font-family: inherit; }
+
+    :root {
+      --primary: #6C5CE7;
+      --primary-dark: #5A4BD1;
+      --secondary: #4A90D9;
+      --accent: #F5A623;
+      --success: #00B894;
+      --coral: #E17055;
+
+      --hero-bg: #0B0B1A;
+      --hero-surface: #13132B;
+
+      --surface: #F8F7FF;
+      --surface-white: #FFFFFF;
+      --cream: #FBF6EE;
+      --cream-deep: #F4ECDA;
+      --text: #1A1A2E;
+      --text-secondary: #6B7280;
+      --text-light: #9CA3AF;
+      --border: #E5E7EB;
+
+      --gradient: linear-gradient(135deg, #6C5CE7, #4A90D9);
+      --gradient-warm: linear-gradient(135deg, #6C5CE7, #E17055);
+      --gradient-hero: linear-gradient(160deg, #0B0B1A 0%, #1A103A 40%, #0D1B3E 100%);
+
+      --radius: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 32px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.06);
+      --shadow-lg: 0 12px 48px rgba(0,0,0,0.1);
+
+      --nav-height: 72px;
+      --max-width: 1200px;
+    }
+
+    .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+    .gradient-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .section-label {
+      font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--primary); margin-bottom: 16px; display: inline-block;
+    }
+
+    /* Reveal animations */
+    .reveal { opacity: 0; transform: translateY(40px); filter: blur(8px); transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.active { opacity: 1; transform: translateY(0); filter: blur(0); }
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
+    .stagger-4 { transition-delay: 0.4s; }
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: var(--nav-height); display: flex; align-items: center;
+      transition: background 0.3s, box-shadow 0.3s, backdrop-filter 0.3s;
+    }
+    .nav.scrolled {
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(20px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: var(--max-width); margin: 0 auto; padding: 0 24px; width: 100%;
+    }
+    .nav-logo-link { display: flex; align-items: center; }
+    .nav-logo {
+      height: 34px; width: auto; transition: filter 0.3s;
+    }
+    .nav:not(.scrolled) .nav-logo { filter: brightness(0) invert(1); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; transition: color 0.2s;
+    }
+    .nav:not(.scrolled) .nav-links a { color: rgba(255,255,255,0.75); }
+    .nav:not(.scrolled) .nav-links a:hover { color: #fff; }
+    .nav.scrolled .nav-links a { color: var(--text-secondary); }
+    .nav.scrolled .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      padding: 10px 24px; border-radius: 100px; font-size: 14px; font-weight: 600;
+      background: var(--gradient); color: #fff;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(108,92,231,0.4); }
+
+    /* ============================================
+       HERO MANIFESTO OPENER
+       ============================================ */
+    .hero {
+      position: relative; min-height: 92vh; display: flex; align-items: center;
+      background: var(--gradient-hero); overflow: hidden; padding-top: var(--nav-height);
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 0.5;
+    }
+    .hero-orb {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      filter: blur(100px); opacity: 0.18;
+    }
+    .hero-orb-1 { width: 500px; height: 500px; background: #6C5CE7; top: -10%; right: -5%; animation: float-slow 25s ease-in-out infinite; }
+    .hero-orb-2 { width: 400px; height: 400px; background: #4A90D9; bottom: -15%; left: -10%; animation: float-slow 20s ease-in-out infinite reverse; }
+    .hero-orb-3 { width: 280px; height: 280px; background: #F5A623; top: 35%; left: 25%; animation: float-slow 30s ease-in-out infinite; opacity: 0.08; }
+    @keyframes float-slow {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(20px, -30px); }
+      50% { transform: translate(-15px, 20px); }
+      75% { transform: translate(25px, 10px); }
+    }
+
+    .hero-inner {
+      position: relative; z-index: 2; padding: 80px 24px;
+      max-width: 980px; margin: 0 auto; text-align: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 8px 18px; border-radius: 100px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 500;
+      letter-spacing: 0.5px;
+      margin-bottom: 32px;
+      animation: fade-in-up 0.8s ease forwards;
+    }
+    .hero-eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--success); animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    .hero h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(40px, 6.2vw, 80px); font-weight: 500; line-height: 1.05;
+      color: #fff; margin-bottom: 32px; letter-spacing: -2px;
+      animation: fade-in-up 0.9s ease 0.1s both;
+    }
+    .hero h1 em {
+      font-style: italic; font-weight: 400;
+      background: linear-gradient(135deg, #a29bfe, #74b9ff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(17px, 1.8vw, 21px); color: rgba(255,255,255,0.72);
+      line-height: 1.7; max-width: 720px; margin: 0 auto 40px;
+      animation: fade-in-up 0.9s ease 0.2s both;
+    }
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-audiences {
+      display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+      max-width: 880px; margin: 0 auto;
+      animation: fade-in-up 0.9s ease 0.3s both;
+    }
+    .hero-audience {
+      flex: 1 1 220px; max-width: 260px;
+      padding: 24px 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius);
+      display: flex; flex-direction: column; align-items: center;
+      transition: background 0.3s, border-color 0.3s, transform 0.3s;
+    }
+    .hero-audience:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(162,155,254,0.4);
+      transform: translateY(-3px);
+    }
+    .hero-audience-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(108,92,231,0.2), rgba(74,144,217,0.2));
+      display: flex; align-items: center; justify-content: center;
+      color: #a29bfe; margin-bottom: 14px;
+    }
+    .hero-audience-icon svg { width: 22px; height: 22px; }
+    .hero-audience-label {
+      font-size: 13px; color: rgba(255,255,255,0.78);
+      letter-spacing: 0.4px; line-height: 1.45;
+      text-align: center; font-weight: 500;
+    }
+
+    /* Scroll indicator */
+    .scroll-cue {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      color: rgba(255,255,255,0.5); font-size: 11px; letter-spacing: 2px;
+      text-transform: uppercase; display: flex; flex-direction: column;
+      align-items: center; gap: 12px;
+    }
+    .scroll-cue-line {
+      width: 1px; height: 40px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.4));
+      animation: scroll-pulse 2s ease-in-out infinite;
+    }
+    @keyframes scroll-pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* ============================================
+       SECTION: WHY WE STARTED (origin story)
+       ============================================ */
+    .origin {
+      padding: 140px 0 100px; background: var(--surface-white);
+      position: relative;
+    }
+    .origin-grid {
+      display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px;
+      align-items: start;
+    }
+    .origin-aside {
+      position: sticky; top: 120px;
+    }
+    .origin-aside h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(36px, 4.5vw, 56px); font-weight: 500;
+      line-height: 1.05; letter-spacing: -1.5px; color: var(--text);
+    }
+    .origin-aside h2 em { font-style: italic; color: var(--primary); }
+    .origin-chapters { display: flex; flex-direction: column; gap: 56px; }
+    .origin-chapter {
+      position: relative; padding-left: 64px;
+    }
+    .origin-chapter::before {
+      content: attr(data-num);
+      position: absolute; left: 0; top: 6px;
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 32px; font-weight: 500;
+      color: var(--primary); opacity: 0.5;
+      width: 48px; text-align: left;
+    }
+    .origin-chapter h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 28px; font-weight: 500; line-height: 1.2;
+      letter-spacing: -0.5px; color: var(--text);
+      margin-bottom: 16px;
+    }
+    .origin-chapter p {
+      font-size: 17px; color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    /* ============================================
+       SECTION: FOUNDER LETTER (cream paper feel)
+       ============================================ */
+    .letter-section {
+      padding: 100px 0; background: var(--cream);
+      position: relative; overflow: hidden;
+    }
+    .letter-section::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(0,0,0,0.06), transparent);
+    }
+    .letter-paper {
+      max-width: 760px; margin: 0 auto; background: #fff;
+      padding: 72px 80px; border-radius: 4px;
+      box-shadow: 0 30px 80px rgba(60,40,20,0.08), 0 4px 12px rgba(60,40,20,0.04);
+      position: relative;
+    }
+    .letter-paper::before {
+      content: ''; position: absolute;
+      top: 8px; left: 8px; right: 8px; bottom: 8px;
+      border: 1px solid rgba(0,0,0,0.04); pointer-events: none;
+      border-radius: 2px;
+    }
+    .letter-tag {
+      font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--primary); font-weight: 700; margin-bottom: 32px;
+    }
+    .letter-paper h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(28px, 3.5vw, 40px); font-weight: 500;
+      line-height: 1.15; letter-spacing: -0.8px; margin-bottom: 28px;
+      color: var(--text);
+    }
+    .letter-body p {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 19px; line-height: 1.8; color: #2d2d3a;
+      margin-bottom: 22px;
+    }
+    .letter-body p:first-of-type::first-letter {
+      font-size: 56px; font-weight: 600; float: left;
+      line-height: 0.9; padding-right: 8px; padding-top: 4px;
+      color: var(--primary);
+    }
+    .letter-signoff {
+      margin-top: 40px;
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic; font-size: 18px; color: var(--text-secondary);
+    }
+    .letter-signature {
+      font-family: 'Caveat', cursive;
+      font-size: 44px; line-height: 1; color: var(--primary);
+      margin: 12px 0 8px;
+    }
+    .letter-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px; font-weight: 600; color: var(--text);
+      letter-spacing: 0.3px;
+    }
+    .letter-role {
+      font-size: 13px; color: var(--text-light);
+      margin-top: 2px;
+    }
+    .letter-edit-note {
+      max-width: 760px; margin: 24px auto 0;
+      padding: 14px 20px; background: rgba(108,92,231,0.06);
+      border: 1px dashed rgba(108,92,231,0.3); border-radius: 8px;
+      font-size: 13px; color: var(--primary-dark);
+      text-align: center;
+    }
+
+    /* ============================================
+       SECTION: WHAT WE BELIEVE (manifesto cards)
+       ============================================ */
+    .beliefs {
+      padding: 120px 0; background: var(--surface);
+    }
+    .beliefs-header {
+      text-align: center; max-width: 720px; margin: 0 auto 72px;
+    }
+    .beliefs-header h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(34px, 4.5vw, 52px); font-weight: 500;
+      line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px;
+    }
+    .beliefs-header p {
+      font-size: 18px; color: var(--text-secondary); line-height: 1.7;
+    }
+    .beliefs-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 24px; max-width: 1080px; margin: 0 auto;
+    }
+    .belief-card {
+      padding: 40px 36px; background: var(--surface-white);
+      border-radius: var(--radius-lg); border: 1px solid var(--border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      position: relative; overflow: hidden;
+    }
+    .belief-card:hover {
+      transform: translateY(-4px); box-shadow: var(--shadow-lg);
+      border-color: rgba(108,92,231,0.3);
+    }
+    .belief-card::before {
+      content: attr(data-num);
+      position: absolute; top: 24px; right: 32px;
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 56px; font-weight: 500;
+      color: var(--primary); opacity: 0.1; line-height: 1;
+    }
+    .belief-card h4 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 24px; font-weight: 500; line-height: 1.25;
+      letter-spacing: -0.5px; margin-bottom: 14px;
+      max-width: 90%;
+    }
+    .belief-card p {
+      font-size: 15px; color: var(--text-secondary); line-height: 1.7;
+    }
+
+    /* ============================================
+       SECTION: BIG NUMBERS
+       ============================================ */
+    .numbers {
+      padding: 120px 0; background: var(--hero-bg); color: #fff;
+      position: relative; overflow: hidden;
+    }
+    .numbers::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(108,92,231,0.15), transparent 60%),
+                  radial-gradient(ellipse at 70% 80%, rgba(74,144,217,0.12), transparent 60%);
+      pointer-events: none;
+    }
+    .numbers-header {
+      text-align: center; max-width: 720px; margin: 0 auto 72px;
+      position: relative; z-index: 2;
+    }
+    .numbers-header .section-label { color: #a29bfe; }
+    .numbers-header h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(34px, 4.5vw, 52px); font-weight: 500;
+      line-height: 1.1; letter-spacing: -1.5px; color: #fff;
+      margin-bottom: 20px;
+    }
+    .numbers-header p {
+      font-size: 17px; color: rgba(255,255,255,0.65); line-height: 1.7;
+    }
+    .numbers-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 32px; max-width: 1080px; margin: 0 auto;
+      position: relative; z-index: 2;
+    }
+    .number-cell {
+      text-align: center; padding: 32px 16px;
+      border-left: 1px solid rgba(255,255,255,0.08);
+    }
+    .number-cell:first-child { border-left: none; }
+    .number-big {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(48px, 6vw, 72px); font-weight: 500;
+      line-height: 1; letter-spacing: -2px;
+      background: linear-gradient(135deg, #ffffff, #a29bfe);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    .number-label {
+      font-size: 13px; color: rgba(255,255,255,0.6);
+      text-transform: uppercase; letter-spacing: 1.5px;
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       SECTION: TEAM
+       ============================================ */
+    .team {
+      padding: 120px 0; background: var(--surface-white);
+    }
+    .team-header {
+      text-align: center; max-width: 720px; margin: 0 auto 80px;
+    }
+    .team-header h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(34px, 4.5vw, 52px); font-weight: 500;
+      line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px;
+    }
+    .team-header p {
+      font-size: 18px; color: var(--text-secondary); line-height: 1.7;
+    }
+    .team-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 32px; max-width: 1080px; margin: 0 auto;
+    }
+    .team-card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .team-card:hover {
+      transform: translateY(-6px); box-shadow: var(--shadow-lg);
+    }
+    .team-photo {
+      aspect-ratio: 1 / 1; width: 100%;
+      background: linear-gradient(135deg, #e7e3ff 0%, #c5d8f3 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 64px; font-weight: 500; color: rgba(108,92,231,0.55);
+      letter-spacing: -2px;
+      position: relative;
+    }
+    .team-photo.gradient-2 { background: linear-gradient(135deg, #ffe7d3 0%, #f7c5d8 100%); color: rgba(225,112,85,0.6); }
+    .team-photo.gradient-3 { background: linear-gradient(135deg, #d3f0e8 0%, #c5d8f3 100%); color: rgba(0,184,148,0.6); }
+    .team-photo.gradient-4 { background: linear-gradient(135deg, #fff0c5 0%, #e7e3ff 100%); color: rgba(245,166,35,0.7); }
+    .team-photo.gradient-5 { background: linear-gradient(135deg, #c5e3ff 0%, #e7e3ff 100%); color: rgba(74,144,217,0.6); }
+    .team-photo.gradient-6 { background: linear-gradient(135deg, #f0d3ff 0%, #ffd3e3 100%); color: rgba(160,90,200,0.6); }
+    .team-info { padding: 28px 28px 32px; }
+    .team-name-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; margin-bottom: 4px;
+    }
+    .team-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 22px; font-weight: 500; letter-spacing: -0.4px;
+      color: var(--text);
+    }
+    .team-linkedin {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(10,102,194,0.08); color: #0A66C2;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .team-linkedin:hover {
+      background: #0A66C2; color: #fff;
+      transform: translateY(-2px);
+    }
+    .team-linkedin svg { width: 16px; height: 16px; }
+    .team-role {
+      font-size: 13px; color: var(--primary); font-weight: 600;
+      letter-spacing: 0.5px; text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .team-photo-icon {
+      width: 76px; height: 76px; opacity: 0.4;
+      stroke: currentColor; fill: none; stroke-width: 1.4;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+    .team-why {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 15px; line-height: 1.7; color: var(--text-secondary);
+      font-style: italic;
+      padding-top: 16px; border-top: 1px solid var(--border);
+    }
+    .team-why::before {
+      content: 'Bio';
+      font-style: normal; font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 700; color: var(--primary);
+      letter-spacing: 1.5px; text-transform: uppercase;
+      display: block; margin-bottom: 8px;
+    }
+
+    /* ============================================
+       SECTION: GROUP TEAM PHOTO
+       ============================================ */
+    .group-photo-section {
+      padding: 0 0 120px; background: var(--surface-white);
+    }
+    .group-photo-frame {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+    }
+    .group-photo-eyebrow {
+      text-align: center; margin-bottom: 32px;
+    }
+    .group-photo-eyebrow .section-label { color: var(--coral); }
+    .group-photo-eyebrow h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(28px, 3.5vw, 40px); font-weight: 500;
+      line-height: 1.15; letter-spacing: -0.8px;
+      max-width: 640px; margin: 0 auto;
+    }
+    .group-photo {
+      position: relative;
+      aspect-ratio: 21 / 9;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      background: linear-gradient(135deg, #e7e3ff 0%, #c5d8f3 50%, #ffe7d3 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .group-photo img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .group-photo-placeholder {
+      text-align: center; color: var(--primary-dark);
+      padding: 32px;
+    }
+    .group-photo-placeholder svg {
+      width: 56px; height: 56px; margin: 0 auto 20px; display: block;
+      opacity: 0.55;
+    }
+    .group-photo-placeholder-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 22px; font-weight: 500; margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+    .group-photo-placeholder-hint {
+      font-size: 14px; color: var(--text-secondary);
+      max-width: 380px; margin: 0 auto; line-height: 1.6;
+    }
+    .group-photo-caption {
+      text-align: center; margin-top: 24px;
+      font-family: 'Fraunces', Georgia, serif; font-style: italic;
+      font-size: 15px; color: var(--text-secondary);
+    }
+    @media (max-width: 700px) {
+      .group-photo { aspect-ratio: 4 / 5; }
+    }
+
+    /* ============================================
+       SECTION: SCIENCE & ADVISORS
+       ============================================ */
+    .science {
+      padding: 120px 0; background: var(--surface);
+    }
+    .science-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center; max-width: 1080px; margin: 0 auto;
+    }
+    .science-content h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(32px, 4vw, 48px); font-weight: 500;
+      line-height: 1.1; letter-spacing: -1.2px; margin-bottom: 20px;
+    }
+    .science-content p {
+      font-size: 17px; color: var(--text-secondary); line-height: 1.75;
+      margin-bottom: 16px;
+    }
+    .science-list {
+      list-style: none; margin-top: 28px;
+    }
+    .science-list li {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+      font-size: 15px; color: var(--text);
+    }
+    .science-list li:last-child { border-bottom: none; }
+    .science-list svg {
+      flex-shrink: 0; margin-top: 2px;
+      width: 18px; height: 18px; color: var(--success);
+    }
+    .science-card {
+      background: var(--surface-white);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      box-shadow: var(--shadow);
+    }
+    .science-card-header {
+      display: flex; align-items: center; gap: 12px;
+      padding-bottom: 24px; border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .science-card-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--success); animation: pulse-dot 2s infinite;
+    }
+    .science-card-title {
+      font-size: 12px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--text-secondary);
+    }
+    .citation {
+      padding: 16px 0; border-bottom: 1px solid var(--border);
+    }
+    .citation:last-child { border-bottom: none; }
+    .citation-quote {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 15px; line-height: 1.6; color: var(--text);
+      margin-bottom: 6px;
+    }
+    .citation-source {
+      font-size: 12px; color: var(--text-light); font-style: italic;
+    }
+
+    /* ============================================
+       SECTION: PARTNERS
+       ============================================ */
+    .partners {
+      padding: 100px 0; background: var(--surface-white);
+      border-top: 1px solid var(--border);
+    }
+    .partners-header {
+      text-align: center; margin-bottom: 56px;
+    }
+    .partners-header .section-label { margin-bottom: 12px; }
+    .partners-header h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(24px, 3vw, 34px); font-weight: 500;
+      letter-spacing: -0.8px;
+    }
+    .partners-row {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      align-items: center; gap: 56px; max-width: 1080px; margin: 0 auto;
+    }
+    .partner-logo {
+      height: 56px; width: auto;
+      max-width: 200px; object-fit: contain;
+      filter: grayscale(100%) opacity(0.55);
+      transition: filter 0.3s ease, transform 0.3s ease;
+    }
+    .partner-logo:hover {
+      filter: grayscale(0%) opacity(1);
+      transform: translateY(-2px);
+    }
+    .partner-logo-text {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 19px; font-weight: 500; letter-spacing: 0.3px;
+      color: var(--text-light);
+      transition: color 0.3s ease;
+    }
+    .partner-logo-text:hover { color: var(--text); }
+
+    /* ============================================
+       SECTION: WHERE WE'RE GOING
+       ============================================ */
+    .roadmap {
+      padding: 120px 0; background: var(--surface);
+    }
+    .roadmap-header {
+      text-align: center; max-width: 720px; margin: 0 auto 80px;
+    }
+    .roadmap-header h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(34px, 4.5vw, 52px); font-weight: 500;
+      line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px;
+    }
+    .roadmap-header p {
+      font-size: 18px; color: var(--text-secondary); line-height: 1.7;
+    }
+    .roadmap-timeline {
+      max-width: 760px; margin: 0 auto;
+      position: relative;
+    }
+    .roadmap-timeline::before {
+      content: ''; position: absolute;
+      left: 11px; top: 8px; bottom: 8px; width: 2px;
+      background: linear-gradient(to bottom, var(--primary), rgba(108,92,231,0.2));
+    }
+    .roadmap-item {
+      position: relative; padding-left: 56px;
+      padding-bottom: 48px;
+    }
+    .roadmap-item:last-child { padding-bottom: 0; }
+    .roadmap-item::before {
+      content: ''; position: absolute;
+      left: 4px; top: 6px; width: 16px; height: 16px;
+      border-radius: 50%; background: var(--surface);
+      border: 3px solid var(--primary);
+      z-index: 2;
+    }
+    .roadmap-item.upcoming::before {
+      border-color: var(--text-light); background: var(--surface);
+    }
+    .roadmap-item.future::before {
+      border-color: var(--border); background: var(--surface);
+    }
+    .roadmap-tag {
+      display: inline-block; padding: 4px 12px;
+      border-radius: 100px; font-size: 11px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .roadmap-item .roadmap-tag {
+      background: rgba(0,184,148,0.1); color: var(--success);
+    }
+    .roadmap-item.upcoming .roadmap-tag {
+      background: rgba(245,166,35,0.12); color: #c8851a;
+    }
+    .roadmap-item.future .roadmap-tag {
+      background: var(--border); color: var(--text-secondary);
+    }
+    .roadmap-item h4 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 22px; font-weight: 500; line-height: 1.3;
+      letter-spacing: -0.4px; margin-bottom: 8px;
+    }
+    .roadmap-item p {
+      font-size: 15px; color: var(--text-secondary); line-height: 1.7;
+    }
+
+    /* ============================================
+       SECTION: VOICES (testimonials)
+       ============================================ */
+    .voices {
+      padding: 120px 0; background: var(--surface-white);
+    }
+    .voices-header {
+      text-align: center; max-width: 720px; margin: 0 auto 64px;
+    }
+    .voices-header h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(32px, 4vw, 46px); font-weight: 500;
+      line-height: 1.1; letter-spacing: -1.2px; margin-bottom: 16px;
+    }
+    .voices-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; max-width: 1080px; margin: 0 auto;
+    }
+    .voice-card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px; position: relative;
+      border: 1px solid var(--border);
+    }
+    .voice-card-mark {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 64px; line-height: 1; color: var(--primary);
+      opacity: 0.15; position: absolute; top: 12px; left: 24px;
+    }
+    .voice-quote {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 18px; line-height: 1.65; color: var(--text);
+      margin-bottom: 24px; position: relative; z-index: 2;
+    }
+    .voice-author {
+      font-size: 14px; font-weight: 600; color: var(--text);
+    }
+    .voice-context {
+      font-size: 13px; color: var(--text-light); margin-top: 2px;
+    }
+
+    /* ============================================
+       CTA
+       ============================================ */
+    .cta {
+      padding: 140px 0; background: var(--gradient-hero); color: #fff;
+      position: relative; overflow: hidden; text-align: center;
+    }
+    .cta::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(108,92,231,0.2), transparent 60%);
+    }
+    .cta-inner { position: relative; z-index: 2; }
+    .cta h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(36px, 5.5vw, 60px); font-weight: 500;
+      line-height: 1.1; letter-spacing: -1.5px;
+      max-width: 800px; margin: 0 auto 24px;
+    }
+    .cta h2 em {
+      font-style: italic;
+      background: linear-gradient(135deg, #a29bfe, #74b9ff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .cta p {
+      font-size: 18px; color: rgba(255,255,255,0.7);
+      max-width: 560px; margin: 0 auto 40px; line-height: 1.7;
+    }
+    .cta-actions {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 32px; border-radius: 100px;
+      background: var(--gradient); color: #fff;
+      font-size: 15px; font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(108,92,231,0.5);
+    }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 32px; border-radius: 100px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff; font-size: 15px; font-weight: 600;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    footer {
+      background: #0B0B1A; color: rgba(255,255,255,0.5);
+      padding: 56px 0 40px; font-size: 14px;
+    }
+    .footer-inner {
+      max-width: var(--max-width); margin: 0 auto;
+      padding: 0 24px;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 24px;
+    }
+    .footer-logo { height: 28px; filter: brightness(0) invert(1); opacity: 0.9; }
+    .footer-links { display: flex; gap: 28px; flex-wrap: wrap; }
+    .footer-links a:hover { color: #fff; }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+      .origin-grid { grid-template-columns: 1fr; gap: 48px; }
+      .origin-aside { position: static; }
+      .beliefs-grid { grid-template-columns: 1fr; }
+      .numbers-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .number-cell { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); padding: 24px 16px; }
+      .number-cell:nth-child(-n+2) { border-top: none; }
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+      .science-inner { grid-template-columns: 1fr; gap: 48px; }
+      .voices-grid { grid-template-columns: 1fr; }
+      .letter-paper { padding: 48px 32px; }
+    }
+    @media (max-width: 600px) {
+      .hero-stats { gap: 24px; }
+      .hero-stat { flex: 1; min-width: 120px; }
+      .team-grid { grid-template-columns: 1fr; }
+      .numbers-grid { grid-template-columns: 1fr; }
+      .number-cell { border-top: 1px solid rgba(255,255,255,0.08) !important; }
+      .number-cell:first-child { border-top: none !important; }
+      .partners-row { gap: 24px; }
+      .origin-chapter { padding-left: 48px; }
+      .origin-chapter::before { font-size: 26px; }
+    }
+
+    /* ============================================
+       SECTION: THREE THINGS WE'LL NEVER DO
+       ============================================ */
+    .never-do {
+      padding: 120px 0; background: var(--hero-bg); color: #fff;
+      position: relative; overflow: hidden;
+    }
+    .never-do::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(108,92,231,0.15), transparent 60%),
+                  radial-gradient(ellipse at 70% 80%, rgba(74,144,217,0.12), transparent 60%);
+      pointer-events: none;
+    }
+    .never-do-header {
+      text-align: center; max-width: 720px; margin: 0 auto 64px;
+      position: relative; z-index: 2;
+    }
+    .never-do-header .section-label { color: #a29bfe; }
+    .never-do-header h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(34px, 4.5vw, 52px); font-weight: 500;
+      line-height: 1.1; letter-spacing: -1.5px; color: #fff;
+      margin-bottom: 20px;
+    }
+    .never-do-header p {
+      font-size: 17px; color: rgba(255,255,255,0.65); line-height: 1.7;
+    }
+    .never-do-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; max-width: 1080px; margin: 0 auto;
+      position: relative; z-index: 2;
+    }
+    .never-do-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      transition: background 0.3s, border-color 0.3s, transform 0.3s;
+    }
+    .never-do-card:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(162,155,254,0.4);
+      transform: translateY(-4px);
+    }
+    .never-do-num {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 18px; font-weight: 500;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 1px;
+      margin-bottom: 28px;
+    }
+    .never-do-statement {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(22px, 2.4vw, 28px); font-weight: 500;
+      line-height: 1.35; letter-spacing: -0.4px;
+      color: #fff;
+      margin-bottom: 28px;
+      min-height: 4.5em;
+    }
+    .never-do-source {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    @media (max-width: 900px) {
+      .never-do-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo-link">
+        <img src="../Logos/MIndNumbers_Brandmark_RGB%20no%20background%20TRIMMED%20copy.png" alt="MindNumbers" class="nav-logo">
+      </a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/about" style="color: #fff !important; font-weight: 600;">About</a>
+        <a href="/science">Science</a>
+        <a href="/faq">FAQ</a>
+        <a href="/download" class="nav-cta">Download App</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+
+    <div class="hero-inner">
+      <div class="hero-eyebrow">
+        <span class="hero-eyebrow-dot"></span>
+        Our story
+      </div>
+      <h1>(About Us hero headline)</h1>
+      <p class="hero-sub">
+        Mind Numbers is partnering with families, psychiatrists and patient support groups to develop easier and better ways to monitor symptom severity for people with serious mental illness.
+      </p>
+      <div class="hero-audiences">
+        <div class="hero-audience">
+          <div class="hero-audience-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          </div>
+          <div class="hero-audience-label">For families</div>
+        </div>
+        <div class="hero-audience">
+          <div class="hero-audience-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="hero-audience-label">For psychiatrists</div>
+        </div>
+        <div class="hero-audience">
+          <div class="hero-audience-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div class="hero-audience-label">For patient support groups</div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue">
+      <span>Read on</span>
+      <div class="scroll-cue-line"></div>
+    </div>
+  </section>
+
+  <!-- FOUNDER LETTER -->
+  <section class="letter-section">
+    <div class="container">
+      <div class="letter-paper reveal">
+        <div class="letter-tag">A letter from our founder</div>
+        <h3>A note from Peter</h3>
+        <div class="letter-body">
+          <p>MindNumbers grew out of my own family's experience with bipolar disorder, and a career spent learning that real progress in medicine almost always starts with better measurement.</p>
+          <p>We built this app to help individuals and families recognise change sooner, act earlier, and stay safer &mdash; so people can focus on living, not logging.</p>
+          <p>The faces below belong to a small but mighty team who bring clinical depth, design care, and a lot of heart to everything we do.</p>
+          <p>We're glad you're here.</p>
+        </div>
+        <div class="letter-signoff">
+          Warmly,
+          <div class="letter-signature">Peter Westlake</div>
+          <div class="letter-name">Peter Westlake</div>
+          <div class="letter-role">Founder &amp; CEO, MindNumbers</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="team">
+    <div class="container">
+      <div class="team-header reveal">
+        <span class="section-label">The team</span>
+        <h2>(The team headline)</h2>
+        <p>(The team subtitle)</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card reveal stagger-1">
+          <div class="team-photo">
+            <svg class="team-photo-icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          </div>
+          <div class="team-info">
+            <div class="team-name-row">
+              <div class="team-name">Peter Westlake</div>
+              <a href="#" target="_blank" rel="noopener" aria-label="LinkedIn" class="team-linkedin">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14C2.2 0 0 2.2 0 5v14c0 2.8 2.2 5 5 5h14c2.8 0 5-2.2 5-5V5c0-2.8-2.2-5-5-5zM7.1 20.5H3.6V9h3.5v11.5zM5.4 7.4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm15.1 13.1H17V14.9c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.5V9h3.4v1.6h.05c.5-.9 1.6-1.8 3.3-1.8 3.5 0 4.2 2.3 4.2 5.4v6.3z"/></svg>
+              </a>
+            </div>
+            <div class="team-role">Founder &amp; CEO</div>
+            <div class="team-why">Peter spent his career in diagnostics helping clinicians measure what was previously invisible &mdash; most recently at ProciseDx, where he led the company through two FDA approvals. When a family member was diagnosed with bipolar disorder, he set out to bring that same kind of measurement to mental health. He serves as Treasurer of the International Bipolar Foundation.</div>
+          </div>
+        </div>
+        <div class="team-card reveal stagger-2">
+          <div class="team-photo gradient-2">
+            <svg class="team-photo-icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          </div>
+          <div class="team-info">
+            <div class="team-name-row">
+              <div class="team-name">Ciar&aacute;n Friel</div>
+              <a href="#" target="_blank" rel="noopener" aria-label="LinkedIn" class="team-linkedin">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14C2.2 0 0 2.2 0 5v14c0 2.8 2.2 5 5 5h14c2.8 0 5-2.2 5-5V5c0-2.8-2.2-5-5-5zM7.1 20.5H3.6V9h3.5v11.5zM5.4 7.4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm15.1 13.1H17V14.9c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.5V9h3.4v1.6h.05c.5-.9 1.6-1.8 3.3-1.8 3.5 0 4.2 2.3 4.2 5.4v6.3z"/></svg>
+              </a>
+            </div>
+            <div class="team-role">Monitoring &amp; App Design</div>
+            <div class="team-why">Ciar&aacute;n is a digital health researcher with 20+ publications on remote monitoring, and a Visiting Research Scientist at Northwell Health's Feinstein Institutes. He helps make sure MindNumbers feels light to use and rigorous underneath.</div>
+          </div>
+        </div>
+        <div class="team-card reveal stagger-3">
+          <div class="team-photo gradient-3">
+            <svg class="team-photo-icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          </div>
+          <div class="team-info">
+            <div class="team-name-row">
+              <div class="team-name">Serena Chaudhry</div>
+              <a href="#" target="_blank" rel="noopener" aria-label="LinkedIn" class="team-linkedin">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14C2.2 0 0 2.2 0 5v14c0 2.8 2.2 5 5 5h14c2.8 0 5-2.2 5-5V5c0-2.8-2.2-5-5-5zM7.1 20.5H3.6V9h3.5v11.5zM5.4 7.4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm15.1 13.1H17V14.9c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.5V9h3.4v1.6h.05c.5-.9 1.6-1.8 3.3-1.8 3.5 0 4.2 2.3 4.2 5.4v6.3z"/></svg>
+              </a>
+            </div>
+            <div class="team-role">Scientific &amp; Clinical Advisor</div>
+            <div class="team-why">Serena is a clinical social worker at the Tulane Psychiatry Clinic and co-founder of EPIC-NOLA, an early-intervention program for serious mental illness. She keeps our work grounded in what people and families actually need when things get hard.</div>
+          </div>
+        </div>
+        <div class="team-card reveal stagger-1">
+          <div class="team-photo gradient-4">
+            <svg class="team-photo-icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          </div>
+          <div class="team-info">
+            <div class="team-name-row">
+              <div class="team-name">Maria Fernanda Currea</div>
+              <a href="#" target="_blank" rel="noopener" aria-label="LinkedIn" class="team-linkedin">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14C2.2 0 0 2.2 0 5v14c0 2.8 2.2 5 5 5h14c2.8 0 5-2.2 5-5V5c0-2.8-2.2-5-5-5zM7.1 20.5H3.6V9h3.5v11.5zM5.4 7.4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm15.1 13.1H17V14.9c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.5V9h3.4v1.6h.05c.5-.9 1.6-1.8 3.3-1.8 3.5 0 4.2 2.3 4.2 5.4v6.3z"/></svg>
+              </a>
+            </div>
+            <div class="team-role">Brand &amp; Digital Marketing</div>
+            <div class="team-why">Maria shapes how MindNumbers shows up in the world, from the look of the app to the words on this page. She joined us after leading brand work for World Design Capital San Diego&ndash;Tijuana 2024 and the Institute of Contemporary Art.</div>
+          </div>
+        </div>
+        <div class="team-card reveal stagger-2">
+          <div class="team-photo gradient-5">
+            <svg class="team-photo-icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          </div>
+          <div class="team-info">
+            <div class="team-name-row">
+              <div class="team-name">Gaela Fern&aacute;ndez Florin</div>
+              <a href="#" target="_blank" rel="noopener" aria-label="LinkedIn" class="team-linkedin">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14C2.2 0 0 2.2 0 5v14c0 2.8 2.2 5 5 5h14c2.8 0 5-2.2 5-5V5c0-2.8-2.2-5-5-5zM7.1 20.5H3.6V9h3.5v11.5zM5.4 7.4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm15.1 13.1H17V14.9c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.5V9h3.4v1.6h.05c.5-.9 1.6-1.8 3.3-1.8 3.5 0 4.2 2.3 4.2 5.4v6.3z"/></svg>
+              </a>
+            </div>
+            <div class="team-role">Chief Growth Officer</div>
+            <div class="team-why">Gaela builds the partnerships and community relationships that help MindNumbers reach the people who need it most. She comes from UCSD Design Lab and was Chief Advancement Officer for World Design Capital San Diego&ndash;Tijuana 2024.</div>
+          </div>
+        </div>
+      </div>
+      <div class="letter-edit-note" style="margin-top: 56px;">
+        <strong>Note:</strong> Update the LinkedIn <code>href="#"</code> on each card to the team member's profile URL. Replace the silhouette icon inside <code>.team-photo</code> with <code>&lt;img src="..." alt=""&gt;</code> to drop in real headshots.
+      </div>
+    </div>
+  </section>
+
+<!-- GROUP TEAM PHOTO -->
+  <section class="group-photo-section">
+    <div class="group-photo-frame">
+      <div class="group-photo-eyebrow reveal">
+        <span class="section-label">All of us, together</span>
+        <h3>(Group team photo headline)</h3>
+      </div>
+      <div class="group-photo reveal">
+        <!-- To use a real photo: replace the .group-photo-placeholder block below with:
+             <img src="../path-to-team-photo.jpg" alt="The MindNumbers team"> -->
+        <div class="group-photo-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          <div class="group-photo-placeholder-title">(Drop the team photo here)</div>
+          <div class="group-photo-placeholder-hint">(Caption / hint)</div>
+        </div>
+      </div>
+      <div class="group-photo-caption reveal">
+        (The MindNumbers team, location, year)
+      </div>
+    </div>
+  </section>
+
+  <!-- THREE THINGS WE'LL NEVER DO -->
+  <section class="never-do">
+    <div class="container">
+      <div class="never-do-header reveal">
+        <span class="section-label">Three things we&rsquo;ll never do</span>
+        <h2>(Three things headline)</h2>
+        <p>(Three things subtitle)</p>
+      </div>
+      <div class="never-do-grid">
+        <div class="never-do-card reveal stagger-1">
+          <div class="never-do-num">01</div>
+          <div class="never-do-statement">Mind Numbers does not sell your consumer health personal data.</div>
+        </div>
+        <div class="never-do-card reveal stagger-2">
+          <div class="never-do-num">02</div>
+          <div class="never-do-statement">We do not share consumer health personal data with third parties for marketing.</div>
+        </div>
+        <div class="never-do-card reveal stagger-3">
+          <div class="never-do-num">03</div>
+          <div class="never-do-statement">Mind Numbers does not under any circumstances provide you with a diagnosis or medical treatment.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <img src="../Logos/MIndNumbers_Brandmark_RGB%20no%20background%20TRIMMED%20copy.png" alt="MindNumbers" class="footer-logo">
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="/science">Science</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="mailto:peter.westlake@mindnumbers.net">Contact</a>
+      </div>
+      <div>© 2026 MindNumbers</div>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll behavior
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    // Reveal animations on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('active');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>
